@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 import React from "react";
 
-const List: React.FC = () => {
+const Dashboard: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -18,7 +18,7 @@ const List: React.FC = () => {
             <IonMenuButton />
           </IonButtons>
 
-          <IonTitle>List</IonTitle>
+          <IonTitle>Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">UI goes here...</IonContent>
@@ -26,4 +26,4 @@ const List: React.FC = () => {
   );
 };
 
-export default List;
+export default Dashboard;

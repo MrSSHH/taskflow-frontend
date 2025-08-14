@@ -4,11 +4,15 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
+  IonLabel,
   IonMenu,
   IonMenuButton,
   IonMenuToggle,
   IonPage,
   IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -16,43 +20,88 @@ import React from "react";
 import { Redirect, Route } from "react-router";
 import List from "./List";
 import Settings from "./Settings";
-import { homeOutline, newspaperOutline } from "ionicons/icons";
+import {
+  addOutline,
+  gridOutline,
+  homeOutline,
+  logOutOutline,
+  newspaperOutline,
+} from "ionicons/icons";
+import Dashboard from "./List";
 
 const Menu: React.FC = () => {
   const pathes = [
-    { name: "Home", url: "/app/list", icon: homeOutline },
     { name: "Settings", url: "/app/settings", icon: newspaperOutline },
   ];
 
   return (
     <IonPage>
+      <IonRouterOutlet id="main">
+        <Route exact path='/app/dashboard' component={Dashboard}/>
+        <Route exact path='/app/dashboard' render={() =>
+          (
+            <IonTabs>
+              <IonRouterOutlet>
+                <Route exact path='/app/dashboard' />
+              </IonRouterOutlet>
+              <IonTabBar slot='bottom'>
+                <IonTabButton tab='dashboard' href="/app/dashboard">
+                  <IonIcon icon={gridOutline}></IonIcon>
+                  <IonLabel>Dashboard</IonLabel>
+                </IonTabButton>
+
+                <IonTabButton tab='tasks' href="/app/tasks">
+                  <IonIcon icon={addOutline}></IonIcon>
+                  <IonLabel>Add Task</IonLabel>
+                </IonTabButton>
+              </IonTabBar>
+              
+            </IonTabs>
+          )
+        }>
+        </Route>
+      </IonRouterOutlet>
+
+      <IonHeader>
+        <IonToolbar color={"tertiary"}>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Dashboard</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+
       <IonMenu contentId="main">
         <IonHeader>
           <IonToolbar color={"secondary"}>
-            <IonButtons slot='start'>
+            <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
             <IonTitle>Menu</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent >
+
+        <IonContent>
           {pathes.map((item, index) => (
             <IonMenuToggle key={index}>
-              <IonItem lines='full' routerLink={item.url} routerDirection="none">
-                <IonIcon slot='start' icon={item.icon} /> {item.name}
+              <IonItem
+                lines="full"
+                routerLink={item.url}
+                routerDirection="none"
+              >
+                <IonIcon slot="start" icon={item.icon} /> {item.name}
               </IonItem>
             </IonMenuToggle>
           ))}
+
+          <IonMenuToggle>
+            <IonItem routerLink="/" routerDirection="root" lines="full">
+              <IonIcon slot="start" icon={logOutOutline} />
+              Logout
+            </IonItem>
+          </IonMenuToggle>
         </IonContent>
       </IonMenu>
-
-      <IonRouterOutlet id="main">
-        <Route exact path="/app/list" component={List} />
-        <Route exact path="/app/settings" component={Settings} />
-        <Route exact path="/app">
-          <Redirect to="/app/list" />
-        </Route>
-      </IonRouterOutlet>
     </IonPage>
   );
 };
