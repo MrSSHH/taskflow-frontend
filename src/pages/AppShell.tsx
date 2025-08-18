@@ -1,73 +1,37 @@
+import React from "react";
+import { logOutOutline, newspaperOutline, homeOutline } from "ionicons/icons";
 import {
+  IonPage,
+  IonMenu,
   IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
   IonItem,
-  IonLabel,
-  IonMenu,
   IonMenuButton,
   IonMenuToggle,
-  IonPage,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   IonTitle,
   IonToolbar,
+  IonRouterOutlet,
 } from "@ionic/react";
-import React from "react";
 import { Redirect, Route } from "react-router";
-import List from "./List";
+import TabsLayout from "./TabsLayout";
 import Settings from "./Settings";
-import {
-  addOutline,
-  gridOutline,
-  homeOutline,
-  logOutOutline,
-  newspaperOutline,
-} from "ionicons/icons";
-import Dashboard from "./List";
 
-const Menu: React.FC = () => {
+const AppShell: React.FC = () => {
   const pathes = [
+    { name: "Home", url: "/app/tabs", icon: homeOutline },
     { name: "Settings", url: "/app/settings", icon: newspaperOutline },
   ];
 
   return (
     <IonPage>
-      <IonRouterOutlet id="main">
-        <Route exact path='/app/dashboard' component={Dashboard}/>
-        <Route exact path='/app/dashboard' render={() =>
-          (
-            <IonTabs>
-              <IonRouterOutlet>
-                <Route exact path='/app/dashboard' />
-              </IonRouterOutlet>
-              <IonTabBar slot='bottom'>
-                <IonTabButton tab='dashboard' href="/app/dashboard">
-                  <IonIcon icon={gridOutline}></IonIcon>
-                  <IonLabel>Dashboard</IonLabel>
-                </IonTabButton>
-
-                <IonTabButton tab='tasks' href="/app/tasks">
-                  <IonIcon icon={addOutline}></IonIcon>
-                  <IonLabel>Add Task</IonLabel>
-                </IonTabButton>
-              </IonTabBar>
-              
-            </IonTabs>
-          )
-        }>
-        </Route>
-      </IonRouterOutlet>
-
       <IonHeader>
-        <IonToolbar color={"tertiary"}>
+        <IonToolbar color={"secondary"}>
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Dashboard</IonTitle>
+          <IonTitle>TaskFlow</IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -102,8 +66,14 @@ const Menu: React.FC = () => {
           </IonMenuToggle>
         </IonContent>
       </IonMenu>
+
+      <IonRouterOutlet id="main">
+        <Route path="/app/tabs" component={TabsLayout} />
+        <Route path="/app/settings" component={Settings} />
+        <Redirect exact from="/app" to="/app/tabs" />
+      </IonRouterOutlet>
     </IonPage>
   );
 };
 
-export default Menu;
+export default AppShell;

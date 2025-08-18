@@ -7,7 +7,7 @@ import {
 } from "@ionic/react";
 import React from "react";
 
-const Settings: React.FC = () => {
+const Tasks: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -15,9 +15,9 @@ const Settings: React.FC = () => {
           <IonTitle>Page Title</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">Settings</IonContent>
+      <IonContent className="ion-padding">Tasks</IonContent>
     </IonPage>
   );
 };
 
-export default Settings;
+export default Tasks;
