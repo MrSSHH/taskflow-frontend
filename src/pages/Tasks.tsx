@@ -1,6 +1,8 @@
 import {
+  IonButtons,
   IonContent,
   IonHeader,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -11,8 +13,11 @@ const Tasks: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Page Title</IonTitle>
+        <IonToolbar color={"secondary"}>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Tasks</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">Tasks</IonContent>

@@ -26,15 +26,6 @@ const AppShell: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar color={"secondary"}>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>TaskFlow</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
       <IonMenu contentId="main">
         <IonHeader>
           <IonToolbar color={"secondary"}>

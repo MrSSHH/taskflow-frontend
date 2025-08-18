@@ -1,7 +1,14 @@
 import {
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
   IonContent,
   IonHeader,
+  IonMenuButton,
   IonPage,
+  IonSearchbar,
   IonTitle,
   IonToolbar,
   useIonViewWillEnter,
@@ -34,20 +41,25 @@ const Dashboard: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color={"secondary"}>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>Dashboard</IonTitle>
         </IonToolbar>
+        <IonToolbar color={"secondary"}>
+          <IonSearchbar />
+        </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        {loading ? (
-          <p>Loading tasks...</p>
-        ) : (
-          <ul>
-            {tasks.map((task, idx) => (
-              <li key={idx}>{task.title ?? JSON.stringify(task)}</li>
-            ))}
-          </ul>
-        )}
+      <IonContent>
+        {tasks.map((task, index) => (
+          <IonCard key={task.id}>
+            <IonCardHeader>
+              <IonCardTitle>{task.title}</IonCardTitle>
+            </IonCardHeader>
+            <IonCardContent>{task.body}</IonCardContent>
+          </IonCard>
+        ))}
       </IonContent>
     </IonPage>
   );
