@@ -54,7 +54,7 @@ const Login: React.FC = () => {
     setIntroSeen(true);
   };
 
-  const watchIntroAgain = async (event: any) => {
+  const watchIntroAgain = async () => {
     setIntroSeen(false);
     await Preferences.remove({ key: INTRO_KEY });
   };
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
         <IonPage>
           <IonHeader>
             <IonToolbar color="tertiary">
-              <IonTitle>Benji's App</IonTitle>
+              <IonTitle>Taskflow</IonTitle>
             </IonToolbar>
           </IonHeader>
           <IonContent scrollY={false} className="ion-padding">
