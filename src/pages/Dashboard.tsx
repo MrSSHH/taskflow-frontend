@@ -1,14 +1,20 @@
 import {
+  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
+  IonCardSubtitle,
   IonCardTitle,
   IonContent,
   IonHeader,
+  IonItem,
+  IonList,
   IonMenuButton,
   IonPage,
+  IonProgressBar,
   IonSearchbar,
+  IonText,
   IonTitle,
   IonToolbar,
   useIonViewWillEnter,
@@ -21,7 +27,7 @@ const Dashboard: React.FC = () => {
 
   const getTasks = async () => {
     try {
-      const res = await fetch("http://192.168.50.52:3000/api/tasks?limit=10");
+      const res = await fetch("http://192.168.60.22:3000/api/tasks?limit=10");
       const data = await res.json();
       console.log("* ~ Dashboard ~ getTasks ~ tasks:", data);
       return data;
@@ -47,19 +53,38 @@ const Dashboard: React.FC = () => {
           </IonButtons>
           <IonTitle>Dashboard</IonTitle>
         </IonToolbar>
-        <IonToolbar color={"secondary"}>
-          <IonSearchbar />
+        <IonToolbar color={"secondary"} >
+          <IonSearchbar className="ion-margin-top" />
+        {loading && <IonProgressBar type="indeterminate" />}
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {tasks.map((task, index) => (
-          <IonCard key={task.id}>
-            <IonCardHeader>
-              <IonCardTitle>{task.title}</IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>{task.body}</IonCardContent>
-          </IonCard>
-        ))}
+        {loading ? (
+          <IonText>
+            Loading...
+          </IonText>
+        ) : (
+          tasks.map((task, index) => (
+            <IonCard key={task.id}>
+              <IonCardHeader>
+              <IonCardSubtitle>
+                Nearest due date: {task.dueDates[0].dueDates}
+               </IonCardSubtitle>
+   
+                <IonCardTitle>
+                  {task.title}
+                </IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                {task.body}
+              </IonCardContent>
+              <IonButton fill="clear">Edit</IonButton>
+              <IonButton fill="clear">Delete</IonButton>
+
+            </IonCard>
+          ))
+  
+        )}
       </IonContent>
     </IonPage>
   );
