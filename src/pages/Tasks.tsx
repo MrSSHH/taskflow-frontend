@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonButton,
   IonButtons,
   IonCard,
@@ -24,22 +25,29 @@ import {
   useIonViewWillEnter,
 } from "@ionic/react";
 import React, { useState } from "react";
+import { getTasks, deleteTask } from "../services/api";
+
+
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<any[]>([]);
 
+  const [taskToDelete, setTaskToDelete] = useState<any>(null);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
   const fetchTasks = async () => {
     await new Promise((resolve) =>
       setTimeout(() => {
-        console.log("⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks...");
+        console.log(
+          "⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks..."
+        );
         resolve(null); // or just resolve();
       }, 1000)
     );
-    const res = await fetch("http://192.168.60.22:3000/api/tasks?limit=10");
-    const data = await res.json();
-    console.log("* ~ Tasks.tsx ~ getTasks ~ tasks:", data);
-    setTasks(data);
+    const res = await getTasks();
+    console.log("* ~ Tasks.tsx ~ getTasks ~ tasks:", res.data);
+    setTasks(res.data);
   };
 
   useIonViewWillEnter(async () => {
@@ -54,6 +62,8 @@ const Tasks: React.FC = () => {
     setLoading(false);
     event.detail.complete();
   }
+
+  
 
   return (
     <IonPage>
@@ -73,32 +83,32 @@ const Tasks: React.FC = () => {
           <IonRefresherContent />
         </IonRefresher>
         {loading && (
-            <>
-              <IonProgressBar type="indeterminate" />
-              {[...Array(10)].map((_, i) => (
-                <IonCard key={i}>
-                  <IonCardHeader>
-                    <IonCardSubtitle>
-                      <IonSkeletonText />
-                    </IonCardSubtitle>
+          <>
+            <IonProgressBar type="indeterminate" />
+            {[...Array(10)].map((_, i) => (
+              <IonCard key={i}>
+                <IonCardHeader>
+                  <IonCardSubtitle>
+                    <IonSkeletonText animated style={{ width: "160px" }} />
+                  </IonCardSubtitle>
 
-                    <IonSkeletonText animated style={{ width: "150px" }} />
-                  </IonCardHeader>
-                  <IonCardContent>
-                    <IonSkeletonText animated style={{ width: "150px" }} />
-                  </IonCardContent>
-                  <IonButton fill="clear">
-                    {" "}
-                    <IonSkeletonText animated style={{ width: "50px" }} />
-                  </IonButton>
-                  <IonButton fill="clear">
-                    {" "}
-                    <IonSkeletonText animated style={{ width: "50px" }} />
-                  </IonButton>
-                </IonCard>
-              ))}
-            </>
-          )}
+                  <IonSkeletonText animated style={{ width: "150px" }} />
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonSkeletonText animated style={{ width: "150px" }} />
+                </IonCardContent>
+                <IonButton fill="clear">
+                  {" "}
+                  <IonSkeletonText animated style={{ width: "50px" }} />
+                </IonButton>
+                <IonButton fill="clear">
+                  {" "}
+                  <IonSkeletonText animated style={{ width: "50px" }} />
+                </IonButton>
+              </IonCard>
+            ))}
+          </>
+        )}
 
         {loading ? (
           <IonText></IonText>
@@ -107,17 +117,54 @@ const Tasks: React.FC = () => {
             <IonCard key={task.id}>
               <IonCardHeader>
                 <IonCardSubtitle>
-                  Nearest due date: {task.dueDates[0]?.dueDates}
+                  Closest due date: {task.dueDates[0]?.dueDates}
                 </IonCardSubtitle>
 
                 <IonCardTitle>{task.title}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>{task.body}</IonCardContent>
               <IonButton fill="clear">Edit</IonButton>
-              <IonButton fill="clear">Delete</IonButton>
+              <IonButton
+                fill="clear"
+                onClick={() => {
+                  setTaskToDelete(task);
+                  setShowAlert(true);
+                }}
+              >
+                Delete
+              </IonButton>
             </IonCard>
           ))
         )}
+        <IonAlert
+          header="Are you sure?"
+          isOpen={showAlert}
+          buttons={[
+            {
+              text: "Cancel",
+              role: "cancel",
+              handler: () => {
+                console.log("Deletion canceled");
+              },
+            },
+            {
+              text: "Delete",
+              role: "confirm",
+              handler: async () => {
+                deleteTask(taskToDelete?.id);
+                console.log("Deleted task");
+                setLoading(true);
+                await fetchTasks();
+                setLoading(false);
+
+              },
+            },
+          ]}
+          onDidDismiss={({ detail }) => {
+            console.log(`Dismissed with role: ${detail.role}`);
+            setShowAlert(false);
+          }}
+        ></IonAlert>
       </IonContent>
     </IonPage>
   );
