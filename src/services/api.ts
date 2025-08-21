@@ -17,3 +17,7 @@ export const getTasks = () => {
 export const deleteTask = (taskId: any) => {
     return api.delete(`/tasks/${taskId}`);
 };
+
+export const editTask = (task: any) => {
+    return api.patch(task);
+}

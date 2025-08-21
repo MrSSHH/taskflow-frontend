@@ -1,5 +1,6 @@
 import {
   IonAlert,
+  IonBadge,
   IonButton,
   IonButtons,
   IonCard,
@@ -7,34 +8,62 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
+  IonIcon,
+  IonInput,
   IonItem,
+  IonLabel,
   IonList,
   IonMenuButton,
+  IonModal,
   IonPage,
   IonProgressBar,
   IonRefresher,
   IonRefresherContent,
+  IonRow,
   IonSearchbar,
   IonSkeletonText,
   IonText,
+  IonTextarea,
   IonTitle,
   IonToolbar,
   RefresherCustomEvent,
   useIonViewWillEnter,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { getTasks, deleteTask } from "../services/api";
+import {
+  logInOutline,
+  personCircleOutline,
+  repeatOutline,
+} from "ionicons/icons";
 
+interface DueDates {
+  id: number;
+  dueDate: string;
+}
 
+interface Task {
+  id: number;
+  title: string;
+  body: string;
+  dueDates: DueDates[];
+}
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<any[]>([]);
 
-  const [taskToDelete, setTaskToDelete] = useState<any>(null);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+
+  const modal = useRef<HTMLIonModalElement>(null);
 
   const fetchTasks = async () => {
     await new Promise((resolve) =>
@@ -62,8 +91,6 @@ const Tasks: React.FC = () => {
     setLoading(false);
     event.detail.complete();
   }
-
-  
 
   return (
     <IonPage>
@@ -119,11 +146,19 @@ const Tasks: React.FC = () => {
                 <IonCardSubtitle>
                   Closest due date: {task.dueDates[0]?.dueDates}
                 </IonCardSubtitle>
-
                 <IonCardTitle>{task.title}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>{task.body}</IonCardContent>
-              <IonButton fill="clear">Edit</IonButton>
+              <IonButton
+                fill="clear"
+                onClick={() => {
+                  setTaskToEdit(task);
+                  setShowEditModal(true);
+                }}
+              >
+                Edit
+              </IonButton>
+
               <IonButton
                 fill="clear"
                 onClick={() => {
@@ -156,7 +191,6 @@ const Tasks: React.FC = () => {
                 setLoading(true);
                 await fetchTasks();
                 setLoading(false);
-
               },
             },
           ]}
@@ -165,6 +199,62 @@ const Tasks: React.FC = () => {
             setShowAlert(false);
           }}
         ></IonAlert>
+
+        <IonModal
+          isOpen={showEditModal}
+          ref={modal}
+          initialBreakpoint={0.5}
+          breakpoints={[0, 0.25, 0.5, 0.75]}
+          onDidDismiss={({ detail }) => {
+            setShowEditModal(false);
+            console.log(`Dismissed with role: ${detail.role}`);
+          }}
+        >
+          <IonContent scrollY={false} className="">
+            <IonGrid fixed>
+              <IonRow class="ion-justify-content-center">
+                <IonCol size="12" >
+                  <IonCard>
+                    <IonCardHeader>
+                      <IonCardTitle>Edit your task</IonCardTitle>
+                    </IonCardHeader>
+                    <IonCardContent>
+                      <form>
+                        <IonInput
+                          fill="outline"
+                          labelPlacement="floating"
+                          label="Title"
+                          type="text"
+                          placeholder="Title"
+                          value={taskToEdit?.title}
+                        />
+
+                        <IonTextarea
+                          className="ion-margin-top"
+                          label="Describe task"
+                          labelPlacement="floating"
+                          fill="outline"
+                          placeholder="Enter text"
+                          value={taskToEdit?.body}
+                          autoGrow={true}
+                        ></IonTextarea>
+
+                        <IonButton
+                          className="ion-margin-top"
+                          type="submit"
+                          expand="block"
+                        >
+                          Edit
+                          <IonIcon icon={logInOutline} slot="end" />
+                        </IonButton>
+                      </form>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );
