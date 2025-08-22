@@ -10,6 +10,8 @@ import {
   IonCardTitle,
   IonCol,
   IonContent,
+  IonDatetime,
+  IonDatetimeButton,
   IonGrid,
   IonHeader,
   IonIcon,
@@ -56,14 +58,14 @@ const Tasks: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
 
   const fetchTasks = async () => {
-    await new Promise((resolve) =>
-      setTimeout(() => {
-        console.log(
-          "⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks..."
-        );
-        resolve(null); // or just resolve();
-      }, 1000)
-    );
+    // await new Promise((resolve) =>
+    //   setTimeout(() => {
+    //     console.log(
+    //       "⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks..."
+    //     );
+    //     resolve(null); // or just resolve();
+    //   }, 1000)
+    // );
     const res = await getTasks();
     console.log("* ~ Tasks.tsx ~ getTasks ~ tasks:", res.data);
     setTasks(res.data);
@@ -134,7 +136,7 @@ const Tasks: React.FC = () => {
             <IonCard key={task.id}>
               <IonCardHeader>
                 <IonCardSubtitle>
-                  Closest due date: {task.dueDates[0].dueDates}
+                  Closest due date: {task.dueDates[0].dueDates ?? "-"}
                 </IonCardSubtitle>
                 <IonCardTitle>{task.title}</IonCardTitle>
               </IonCardHeader>
@@ -197,7 +199,7 @@ const Tasks: React.FC = () => {
           isOpen={showEditModal}
           ref={modal}
           initialBreakpoint={0.5}
-          breakpoints={[0, 0.25, 0.5, 0.75, 1]}
+          breakpoints={[0.5, 0.75, 1]}
           onDidDismiss={({ detail }) => {
             setShowEditModal(false);
             console.log(`Dismissed with role: ${detail.role}`);
@@ -214,10 +216,11 @@ const Tasks: React.FC = () => {
                     <IonCardContent>
                       <form
                         onSubmit={async (e) => {
-                          e.preventDefault();
                           if (taskToEdit) {
                             e.preventDefault();
                             const fd = new FormData(e.currentTarget);
+                            const formDate = String(fd.get("dateOnly"));
+
                             const updatedTask = {
                               ...taskToEdit,
                               title: String(
@@ -228,6 +231,7 @@ const Tasks: React.FC = () => {
                                 (d) => d.dueDates
                               ),
                             };
+                            updatedTask.dueDates[0] = formDate;
                             await editTask(updatedTask);
                             setShowEditModal(false);
                             setLoading(true);
@@ -256,6 +260,33 @@ const Tasks: React.FC = () => {
                           value={taskToEdit?.body}
                           autoGrow={true}
                         ></IonTextarea>
+
+                        <IonDatetimeButton
+                          className="ion-padding"
+                          datetime="dateOnly"
+                        ></IonDatetimeButton>
+
+                        <IonModal keepContentsMounted={true}>
+                          <IonDatetime
+                            id="dateOnly"
+                            presentation="date"
+                            showDefaultTitle={true}
+                            name="dateOnly"
+                            formatOptions={{
+                              date: {
+                                year: "numeric",
+                                weekday: "short",
+                                month: "long",
+                                day: "2-digit",
+                              },
+                            }}
+                            value={taskToEdit?.dueDates[0].dueDates}
+                            preferWheel={true}
+                            doneText="All set"
+                            cancelText="Never mind"
+                            showDefaultButtons={true}
+                          ></IonDatetime>
+                        </IonModal>
 
                         <IonButton
                           className="ion-margin-top"
