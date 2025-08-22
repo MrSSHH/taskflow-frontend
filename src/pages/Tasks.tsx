@@ -58,14 +58,14 @@ const Tasks: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
 
   const fetchTasks = async () => {
-    // await new Promise((resolve) =>
-    //   setTimeout(() => {
-    //     console.log(
-    //       "⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks..."
-    //     );
-    //     resolve(null); // or just resolve();
-    //   }, 1000)
-    // );
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        console.log(
+          "⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks..."
+        );
+        resolve(null); // or just resolve();
+      }, 500)
+    );
     const res = await getTasks();
     console.log("* ~ Tasks.tsx ~ getTasks ~ tasks:", res.data);
     setTasks(res.data);
@@ -141,26 +141,38 @@ const Tasks: React.FC = () => {
                 <IonCardTitle>{task.title}</IonCardTitle>
               </IonCardHeader>
               <IonCardContent>{task.body}</IonCardContent>
-              <IonButton
-                fill="clear"
-                onClick={() => {
-                  setTaskToEdit(task);
-                  setShowEditModal(true);
+              <IonItem
+                lines="none"
+                style={{
+                  // Ionic respects CSS vars via inline style too
+                  ["--background"]: "transparent",
+                  ["--ion-item-background"]: "transparent",
                 }}
               >
-                Edit
-              </IonButton>
+                <IonButton
+                  size="default"
+                  fill="clear"
+                  onClick={() => {
+                    setTaskToEdit(task);
+                    setShowEditModal(true);
+                  }}
+                >
+                  Edit
+                </IonButton>
 
-              <IonButton
-                fill="clear"
-                color="danger"
-                onClick={() => {
-                  setTaskToDelete(task);
-                  setShowAlert(true);
-                }}
-              >
-                Delete
-              </IonButton>
+                <IonButton
+                  size="default"
+                  fill="clear"
+                  color="success"
+                  slot="end"
+                  onClick={() => {
+                    setTaskToDelete(task);
+                    setShowAlert(true);
+                  }}
+                >
+                  Mark completed
+                </IonButton>
+              </IonItem>
             </IonCard>
           ))
         )}
@@ -176,7 +188,7 @@ const Tasks: React.FC = () => {
               },
             },
             {
-              text: "Delete",
+              text: "Confirm",
               role: "confirm",
               handler: async () => {
                 if (taskToDelete) {
