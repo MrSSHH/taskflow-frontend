@@ -34,28 +34,18 @@ import {
   useIonViewWillEnter,
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
-import { getTasks, deleteTask } from "../services/api";
+import { getTasks, deleteTask, editTask } from "../services/api";
 import {
   logInOutline,
   personCircleOutline,
   repeatOutline,
 } from "ionicons/icons";
 
-interface DueDates {
-  id: number;
-  dueDate: string;
-}
-
-interface Task {
-  id: number;
-  title: string;
-  body: string;
-  dueDates: DueDates[];
-}
+import { Task } from "../types/task";
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [tasks, setTasks] = useState<any[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -144,7 +134,7 @@ const Tasks: React.FC = () => {
             <IonCard key={task.id}>
               <IonCardHeader>
                 <IonCardSubtitle>
-                  Closest due date: {task.dueDates[0]?.dueDates}
+                  Closest due date: {task.dueDates[0].dueDates}
                 </IonCardSubtitle>
                 <IonCardTitle>{task.title}</IonCardTitle>
               </IonCardHeader>
@@ -161,6 +151,7 @@ const Tasks: React.FC = () => {
 
               <IonButton
                 fill="clear"
+                color="danger"
                 onClick={() => {
                   setTaskToDelete(task);
                   setShowAlert(true);
@@ -186,7 +177,9 @@ const Tasks: React.FC = () => {
               text: "Delete",
               role: "confirm",
               handler: async () => {
-                deleteTask(taskToDelete?.id);
+                if (taskToDelete) {
+                  deleteTask(taskToDelete.id);
+                }
                 console.log("Deleted task");
                 setLoading(true);
                 await fetchTasks();
@@ -204,26 +197,50 @@ const Tasks: React.FC = () => {
           isOpen={showEditModal}
           ref={modal}
           initialBreakpoint={0.5}
-          breakpoints={[0, 0.25, 0.5, 0.75]}
+          breakpoints={[0, 0.25, 0.5, 0.75, 1]}
           onDidDismiss={({ detail }) => {
             setShowEditModal(false);
             console.log(`Dismissed with role: ${detail.role}`);
           }}
         >
-          <IonContent scrollY={false} className="">
+          <IonContent scrollY={false}>
             <IonGrid fixed>
               <IonRow class="ion-justify-content-center">
-                <IonCol size="12" >
+                <IonCol size="12">
                   <IonCard>
                     <IonCardHeader>
                       <IonCardTitle>Edit your task</IonCardTitle>
                     </IonCardHeader>
                     <IonCardContent>
-                      <form>
+                      <form
+                        onSubmit={async (e) => {
+                          e.preventDefault();
+                          if (taskToEdit) {
+                            e.preventDefault();
+                            const fd = new FormData(e.currentTarget);
+                            const updatedTask = {
+                              ...taskToEdit,
+                              title: String(
+                                fd.get("title") ?? taskToEdit.title
+                              ),
+                              body: String(fd.get("body") ?? taskToEdit.body),
+                              dueDates: taskToEdit.dueDates.map(
+                                (d) => d.dueDates
+                              ),
+                            };
+                            await editTask(updatedTask);
+                            setShowEditModal(false);
+                            setLoading(true);
+                            await fetchTasks();
+                            setLoading(false);
+                          }
+                        }}
+                      >
                         <IonInput
                           fill="outline"
                           labelPlacement="floating"
                           label="Title"
+                          name="title"
                           type="text"
                           placeholder="Title"
                           value={taskToEdit?.title}
@@ -233,6 +250,7 @@ const Tasks: React.FC = () => {
                           className="ion-margin-top"
                           label="Describe task"
                           labelPlacement="floating"
+                          name="body"
                           fill="outline"
                           placeholder="Enter text"
                           value={taskToEdit?.body}
@@ -243,6 +261,7 @@ const Tasks: React.FC = () => {
                           className="ion-margin-top"
                           type="submit"
                           expand="block"
+                          color="success"
                         >
                           Edit
                           <IonIcon icon={logInOutline} slot="end" />
