@@ -1,24 +1,20 @@
 import {
   IonAlert,
-  IonBadge,
   IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonCol,
   IonContent,
   IonDatetime,
   IonDatetimeButton,
+  IonFab,
   IonGrid,
   IonHeader,
   IonIcon,
   IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonMenuButton,
   IonModal,
   IonPage,
@@ -27,7 +23,6 @@ import {
   IonRefresherContent,
   IonRow,
   IonSearchbar,
-  IonSkeletonText,
   IonText,
   IonTextarea,
   IonTitle,
@@ -37,13 +32,13 @@ import {
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import { getTasks, deleteTask, editTask } from "../services/api";
-import {
-  logInOutline,
-  personCircleOutline,
-  repeatOutline,
-} from "ionicons/icons";
+import { addOutline, logInOutline } from "ionicons/icons";
 
 import { Task } from "../types/task";
+import TaskCard from "../components/tasks/TaskCard";
+import TaskSkeletonText from "../components/tasks/TaskSkeletonText";
+import TaskEditModal from "../components/tasks/TaskEditModal";
+import TaskDeleteConfirmation from "../components/tasks/TaskDeleteConfirmation";
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -71,10 +66,18 @@ const Tasks: React.FC = () => {
     setTasks(res.data);
   };
 
-  useIonViewWillEnter(async () => {
-    setLoading(true);
-    await fetchTasks();
-    setLoading(false);
+  useIonViewWillEnter(() => {
+    const run = async () => {
+      try {
+        setLoading(true);
+        await fetchTasks();
+      } catch (err) {
+        console.error("Failed to fetch tasks:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
   });
 
   async function handleRefresh(event: RefresherCustomEvent) {
@@ -104,28 +107,7 @@ const Tasks: React.FC = () => {
         {loading && (
           <>
             <IonProgressBar type="indeterminate" />
-            {[...Array(10)].map((_, i) => (
-              <IonCard key={i}>
-                <IonCardHeader>
-                  <IonCardSubtitle>
-                    <IonSkeletonText animated style={{ width: "160px" }} />
-                  </IonCardSubtitle>
-
-                  <IonSkeletonText animated style={{ width: "150px" }} />
-                </IonCardHeader>
-                <IonCardContent>
-                  <IonSkeletonText animated style={{ width: "150px" }} />
-                </IonCardContent>
-                <IonButton fill="clear">
-                  {" "}
-                  <IonSkeletonText animated style={{ width: "50px" }} />
-                </IonButton>
-                <IonButton fill="clear">
-                  {" "}
-                  <IonSkeletonText animated style={{ width: "50px" }} />
-                </IonButton>
-              </IonCard>
-            ))}
+            <TaskSkeletonText />
           </>
         )}
 
@@ -133,190 +115,44 @@ const Tasks: React.FC = () => {
           <IonText></IonText>
         ) : (
           tasks.map((task) => (
-            <IonCard key={task.id}>
-              <IonCardHeader>
-                <IonCardSubtitle>
-                  Closest due date: {task.dueDates[0].dueDates ?? "-"}
-                </IonCardSubtitle>
-                <IonCardTitle>{task.title}</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>{task.body}</IonCardContent>
-              <IonItem
-                lines="none"
-                style={{
-                  // Ionic respects CSS vars via inline style too
-                  ["--background"]: "transparent",
-                  ["--ion-item-background"]: "transparent",
-                }}
-              >
-                <IonButton
-                  size="default"
-                  fill="clear"
-                  onClick={() => {
-                    setTaskToEdit(task);
-                    setShowEditModal(true);
-                  }}
-                >
-                  Edit
-                </IonButton>
-
-                <IonButton
-                  size="default"
-                  fill="clear"
-                  color="success"
-                  slot="end"
-                  onClick={() => {
-                    setTaskToDelete(task);
-                    setShowAlert(true);
-                  }}
-                >
-                  Mark completed
-                </IonButton>
-              </IonItem>
-            </IonCard>
+            <TaskCard
+              task={task}
+              toDelete={() => {
+                setTaskToDelete(task);
+                setShowAlert(true);
+              }}
+              toEdit={() => {
+                setTaskToEdit(task);
+                setShowEditModal(true);
+              }}
+            ></TaskCard>
           ))
         )}
-        <IonAlert
-          header="Are you sure?"
-          isOpen={showAlert}
-          buttons={[
-            {
-              text: "Cancel",
-              role: "cancel",
-              handler: () => {
-                console.log("Deletion canceled");
-              },
-            },
-            {
-              text: "Confirm",
-              role: "confirm",
-              handler: async () => {
-                if (taskToDelete) {
-                  deleteTask(taskToDelete.id);
-                }
-                console.log("Deleted task");
-                setLoading(true);
-                await fetchTasks();
-                setLoading(false);
-              },
-            },
-          ]}
-          onDidDismiss={({ detail }) => {
-            console.log(`Dismissed with role: ${detail.role}`);
-            setShowAlert(false);
-          }}
-        ></IonAlert>
-
-        <IonModal
-          isOpen={showEditModal}
-          ref={modal}
-          initialBreakpoint={0.5}
-          breakpoints={[0.5, 0.75, 1]}
-          onDidDismiss={({ detail }) => {
-            setShowEditModal(false);
-            console.log(`Dismissed with role: ${detail.role}`);
-          }}
+        <TaskDeleteConfirmation
+          showAlert={showAlert}
+          taskToDelete={taskToDelete}
+          setLoading={setLoading}
+          setShowAlert={setShowAlert}
+          fetchTasks={fetchTasks}
+        />
+        <TaskEditModal
+          modal={modal}
+          showEditModal={showEditModal}
+          setShowEditModal={setShowEditModal}
+          setLoading={setLoading}
+          fetchTasks={fetchTasks}
+          taskSelected={taskToEdit}
+        />
+        <IonFab
+          className="ion-padding"
+          slot="fixed"
+          vertical="bottom"
+          horizontal="end"
         >
-          <IonContent scrollY={false}>
-            <IonGrid fixed>
-              <IonRow class="ion-justify-content-center">
-                <IonCol size="12">
-                  <IonCard>
-                    <IonCardHeader>
-                      <IonCardTitle>Edit your task</IonCardTitle>
-                    </IonCardHeader>
-                    <IonCardContent>
-                      <form
-                        onSubmit={async (e) => {
-                          if (taskToEdit) {
-                            e.preventDefault();
-                            const fd = new FormData(e.currentTarget);
-                            const formDate = String(fd.get("dateOnly"));
-
-                            const updatedTask = {
-                              ...taskToEdit,
-                              title: String(
-                                fd.get("title") ?? taskToEdit.title
-                              ),
-                              body: String(fd.get("body") ?? taskToEdit.body),
-                              dueDates: taskToEdit.dueDates.map(
-                                (d) => d.dueDates
-                              ),
-                            };
-                            updatedTask.dueDates[0] = formDate;
-                            await editTask(updatedTask);
-                            setShowEditModal(false);
-                            setLoading(true);
-                            await fetchTasks();
-                            setLoading(false);
-                          }
-                        }}
-                      >
-                        <IonInput
-                          fill="outline"
-                          labelPlacement="floating"
-                          label="Title"
-                          name="title"
-                          type="text"
-                          placeholder="Title"
-                          value={taskToEdit?.title}
-                        />
-
-                        <IonTextarea
-                          className="ion-margin-top"
-                          label="Describe task"
-                          labelPlacement="floating"
-                          name="body"
-                          fill="outline"
-                          placeholder="Enter text"
-                          value={taskToEdit?.body}
-                          autoGrow={true}
-                        ></IonTextarea>
-
-                        <IonDatetimeButton
-                          className="ion-padding"
-                          datetime="dateOnly"
-                        ></IonDatetimeButton>
-
-                        <IonModal keepContentsMounted={true}>
-                          <IonDatetime
-                            id="dateOnly"
-                            presentation="date"
-                            showDefaultTitle={true}
-                            name="dateOnly"
-                            formatOptions={{
-                              date: {
-                                year: "numeric",
-                                weekday: "short",
-                                month: "long",
-                                day: "2-digit",
-                              },
-                            }}
-                            value={taskToEdit?.dueDates[0].dueDates}
-                            preferWheel={true}
-                            doneText="All set"
-                            cancelText="Never mind"
-                            showDefaultButtons={true}
-                          ></IonDatetime>
-                        </IonModal>
-
-                        <IonButton
-                          className="ion-margin-top"
-                          type="submit"
-                          expand="block"
-                          color="success"
-                        >
-                          Edit
-                          <IonIcon icon={logInOutline} slot="end" />
-                        </IonButton>
-                      </form>
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              </IonRow>
-            </IonGrid>
-          </IonContent>
-        </IonModal>
+          <IonButton size="large" color="success">
+            <IonIcon slot="icon-only" icon={addOutline}></IonIcon>
+          </IonButton>
+        </IonFab>
       </IonContent>
     </IonPage>
   );

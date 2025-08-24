@@ -8,15 +8,15 @@ import {
   IonItem,
 } from "@ionic/react";
 import React from "react";
-import { Task } from "../types/task";
+import { Task } from "../../types/task";
 
 type Props = {
   task: Task;
-  onEdit: (t: Task) => void;
-  onComplete: (t: Task) => void;
+  toEdit: (t: Task) => void;
+  toDelete: (t: Task) => void;
 };
 
-const TaskCard: React.FC<Props> = ({ task, onEdit, onComplete }) => {
+const TaskCard: React.FC<Props> = ({ task, toEdit, toDelete }) => {
   return (
     <IonCard key={task.id}>
       <IonCardHeader>
@@ -29,7 +29,6 @@ const TaskCard: React.FC<Props> = ({ task, onEdit, onComplete }) => {
       <IonItem
         lines="none"
         style={{
-          // Ionic respects CSS vars via inline style too
           ["--background"]: "transparent",
           ["--ion-item-background"]: "transparent",
         }}
@@ -38,7 +37,7 @@ const TaskCard: React.FC<Props> = ({ task, onEdit, onComplete }) => {
           size="default"
           fill="clear"
           onClick={() => {
-            onEdit(task);
+            toEdit(task);
           }}
         >
           Edit
@@ -50,7 +49,7 @@ const TaskCard: React.FC<Props> = ({ task, onEdit, onComplete }) => {
           color="success"
           slot="end"
           onClick={() => {
-            onComplete(task);
+            toDelete(task);
           }}
         >
           Mark completed
