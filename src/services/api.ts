@@ -22,3 +22,9 @@ export const editTask = async (task: Task) => {
   console.log(taskJson);
   return await api.patch(`/tasks/${task.id}`, taskJson);
 };
+
+export const addTask = async (task: Task) => {
+  const taskJson = JSON.stringify(task, ["title", "body", "dueDates"], 2);
+  console.log(taskJson);
+  return await api.post(`/tasks`, taskJson);
+};

@@ -1,30 +1,17 @@
 import {
-  IonAlert,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCol,
   IonContent,
-  IonDatetime,
-  IonDatetimeButton,
   IonFab,
-  IonGrid,
   IonHeader,
   IonIcon,
-  IonInput,
   IonMenuButton,
-  IonModal,
   IonPage,
   IonProgressBar,
   IonRefresher,
   IonRefresherContent,
-  IonRow,
   IonSearchbar,
   IonText,
-  IonTextarea,
   IonTitle,
   IonToolbar,
   RefresherCustomEvent,
@@ -39,6 +26,7 @@ import TaskCard from "../components/tasks/TaskCard";
 import TaskSkeletonText from "../components/tasks/TaskSkeletonText";
 import TaskEditModal from "../components/tasks/TaskEditModal";
 import TaskDeleteConfirmation from "../components/tasks/TaskDeleteConfirmation";
+import TaskAddNew from "../components/tasks/TaskAddNew";
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,6 +37,8 @@ const Tasks: React.FC = () => {
 
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
+
+  const [taskToAddModal, setTaskToAddModal] = useState<boolean>(false);
 
   const modal = useRef<HTMLIonModalElement>(null);
 
@@ -149,10 +139,22 @@ const Tasks: React.FC = () => {
           vertical="bottom"
           horizontal="end"
         >
-          <IonButton size="large" color="success">
+          <IonButton
+            size="large"
+            color="success"
+            onClick={() => setTaskToAddModal(true)}
+          >
             <IonIcon slot="icon-only" icon={addOutline}></IonIcon>
           </IonButton>
         </IonFab>
+
+        <TaskAddNew
+          modal={modal}
+          setShowAddModal={setTaskToAddModal}
+          fetchTasks={fetchTasks}
+          setLoading={setLoading}
+          showAddModal={taskToAddModal}
+        />
       </IonContent>
     </IonPage>
   );

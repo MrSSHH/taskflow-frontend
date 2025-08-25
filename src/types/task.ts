@@ -1,10 +1,10 @@
 export interface DueDates {
-  id: number;
+  id?: number;
   dueDates: string;
 }
 
 export interface Task {
-  id: number;
+  id?: number;
   title: string;
   body: string;
   dueDates: DueDates[] | string[];
