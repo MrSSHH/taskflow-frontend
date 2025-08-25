@@ -13,6 +13,7 @@ import {
   IonInput,
   IonModal,
   IonRow,
+  IonText,
   IonTextarea,
 } from "@ionic/react";
 import { logInOutline } from "ionicons/icons";
@@ -86,12 +87,16 @@ const TaskEditModal: React.FC<Props> = ({
                     <IonInput
                       fill="outline"
                       labelPlacement="floating"
-                      label="Title"
                       name="title"
                       type="text"
                       placeholder="Title"
                       value={taskSelected?.title}
-                    />
+                      required={true}
+                    >
+                      <div slot="label">
+                        Title <IonText color="danger">(Required)</IonText>
+                      </div>
+                    </IonInput>
 
                     <IonTextarea
                       className="ion-margin-top"
