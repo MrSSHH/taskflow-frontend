@@ -39,6 +39,7 @@ const Tasks: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
   const [taskToAddModal, setTaskToAddModal] = useState<boolean>(false);
+  const [selectedTaskIds, setSelectedTaskIds] = useState<number[]>([]);
 
   const modal = useRef<HTMLIonModalElement>(null);
 
@@ -115,6 +116,9 @@ const Tasks: React.FC = () => {
                 setTaskToEdit(task);
                 setShowEditModal(true);
               }}
+              
+              selectedTaskIds={selectedTaskIds}
+              setSelectedTaskIds={setSelectedTaskIds}
             ></TaskCard>
           ))
         )}
