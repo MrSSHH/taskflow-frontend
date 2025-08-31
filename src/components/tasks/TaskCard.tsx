@@ -19,6 +19,7 @@ type Props = {
   setSelectedTaskIds: React.Dispatch<React.SetStateAction<number[]>>;
   selectedTaskIds: number[];
 };
+const TIMEOUT_ANIMATION = 400; // 400 ms
 
 const TaskCard: React.FC<Props> = ({
   task,
@@ -30,21 +31,23 @@ const TaskCard: React.FC<Props> = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleTouchPress = (task: Task) => {
-    console.log(selectedTaskIds);
     if (selectedTaskIds.length > 0) {
+      // 👉 Already in selection mode — toggle immediately
       setSelectedTaskIds((prev) =>
         prev.includes(task.id)
           ? prev.filter((currentId) => currentId !== task.id)
           : [...prev, task.id]
       );
+    } else {
+      // 👉 Not in selection mode — wait for long-press
+      timeoutRef.current = setTimeout(() => {
+        setSelectedTaskIds((prev) =>
+          prev.includes(task.id)
+            ? prev.filter((currentId) => currentId !== task.id)
+            : [...prev, task.id]
+        );
+      }, TIMEOUT_ANIMATION);
     }
-    timeoutRef.current = setTimeout(() => {
-      setSelectedTaskIds((prev) =>
-        prev.includes(task.id)
-          ? prev.filter((currentId) => currentId !== task.id)
-          : [...prev, task.id]
-      );
-    }, 600);
   };
   const handleTouchEnd = () => {
     if (timeoutRef.current) {
@@ -52,15 +55,28 @@ const TaskCard: React.FC<Props> = ({
       timeoutRef.current = null;
     }
   };
-  const isSelected = selectedTaskIds.includes(task.id);
 
+  const handleTouchMove = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+  const handleTouchCancel = handleTouchEnd;
+
+  const isSelected = selectedTaskIds.includes(task.id);
   return (
     <>
       <IonCard
         key={task.id}
-        onTouchStart={(event) => handleTouchPress(task)}
+        onTouchStart={
+          selectedTaskIds.length === 0
+            ? (event) => handleTouchPress(task)
+            : undefined
+        }
         onTouchEnd={handleTouchEnd}
-        onTouchCancel={handleTouchEnd}
+        onTouchCancel={handleTouchCancel}
+        onTouchMove={handleTouchMove}
         style={{
           transform: isSelected ? "scale(0.95)" : "scale(1)",
           transition: "all 0.3s ease-in-out",
@@ -69,22 +85,24 @@ const TaskCard: React.FC<Props> = ({
         }}
       >
         <IonCardHeader>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <IonCardTitle>{task.title}</IonCardTitle>
+            {selectedTaskIds.length > 0 && (
+              <IonCheckbox
+                checked={isSelected}
+                onIonChange={() => handleTouchPress(task)}
+              />
+            )}
+          </div>
           <IonCardSubtitle>
             Closest due date: {task.dueDates[0].dueDates ?? "-"}
           </IonCardSubtitle>
-
-          <IonCardTitle>
-            {isSelected && (
-              <IonCheckbox
-                onClick={(e) => e.preventDefault()}
-                style={{ pointerEvents: "none", opacity: 1}}
-                checked={true}
-                justify="end"
-              />
-            )}
-
-            {task.title}
-          </IonCardTitle>
         </IonCardHeader>
         <IonCardContent>{task.body}</IonCardContent>
 
@@ -101,6 +119,7 @@ const TaskCard: React.FC<Props> = ({
             onClick={() => {
               toEdit(task);
             }}
+            disabled={selectedTaskIds.length > 0 ? true : false}
           >
             Edit
           </IonButton>
@@ -110,6 +129,7 @@ const TaskCard: React.FC<Props> = ({
             fill="clear"
             color="success"
             slot="end"
+            disabled={selectedTaskIds.length > 0 ? true : false}
             onClick={() => {
               toDelete(task);
             }}

@@ -9,12 +9,21 @@ const api = axios.create({
   },
 });
 
+export function deleteTask(taskIdOrIds: number): Promise<any>;
+export function deleteTask(taskIdOrIds: number[]): Promise<any[]>;
+
+export function deleteTask(taskIdOrIds: number | number[]) {
+  if (Array.isArray(taskIdOrIds)) {
+    return Promise.all(
+      taskIdOrIds.map((taskId) => api.delete(`/tasks/${taskId}`))
+    );
+  }
+
+  return api.delete(`/tasks/${taskIdOrIds}`);
+}
+
 export const getTasks = async () => {
   return await api.get<Task[]>("/tasks");
-};
-
-export const deleteTask = (taskId: number) => {
-  return api.delete(`/tasks/${taskId}`);
 };
 
 export const editTask = async (task: Task) => {

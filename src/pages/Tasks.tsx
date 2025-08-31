@@ -19,7 +19,7 @@ import {
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import { getTasks, deleteTask, editTask } from "../services/api";
-import { addOutline, logInOutline } from "ionicons/icons";
+import { addOutline, logInOutline, trashBinOutline } from "ionicons/icons";
 
 import { Task } from "../types/task";
 import TaskCard from "../components/tasks/TaskCard";
@@ -27,6 +27,8 @@ import TaskSkeletonText from "../components/tasks/TaskSkeletonText";
 import TaskEditModal from "../components/tasks/TaskEditModal";
 import TaskDeleteConfirmation from "../components/tasks/TaskDeleteConfirmation";
 import TaskAddNew from "../components/tasks/TaskAddNew";
+
+const TIMEOUT_ANIMATION = 400; // 400 ms
 
 const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -50,7 +52,7 @@ const Tasks: React.FC = () => {
           "⏳ [Tasks.tsx:48] Simulating 1s delay before fetching tasks..."
         );
         resolve(null); // or just resolve();
-      }, 500)
+      }, TIMEOUT_ANIMATION)
     );
     const res = await getTasks();
     console.log("* ~ Tasks.tsx ~ getTasks ~ tasks:", res.data);
@@ -81,11 +83,51 @@ const Tasks: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar color={"secondary"}>
+        <IonToolbar color="secondary">
           <IonButtons slot="start">
-            <IonMenuButton />
+            {selectedTaskIds.length > 0 ? (
+              <>
+                <IonButton
+                  color="danger"
+                  fill="solid"
+                  size="default"
+                  onClick={async () => {
+                    deleteTask(selectedTaskIds);
+
+                    try {
+                      setLoading(true);
+                      await fetchTasks();
+                    } catch (err) {
+                      console.error("Failed to fetch tasks:", err);
+                    } finally {
+                      setLoading(false);
+                    }
+                    setSelectedTaskIds([]);
+                  }}
+                >
+                  <IonIcon slot="start" icon={trashBinOutline} />
+                  Delete ({selectedTaskIds.length})
+                </IonButton>
+              </>
+            ) : (
+              <IonMenuButton />
+            )}
           </IonButtons>
+
           <IonTitle>Tasks</IonTitle>
+
+          <IonButtons slot="end">
+            {selectedTaskIds.length > 0 && (
+              <IonButton
+                color="light"
+                fill="solid"
+                size="default"
+                onClick={() => setSelectedTaskIds([])}
+              >
+                Cancel
+              </IonButton>
+            )}
+          </IonButtons>
         </IonToolbar>
         <IonToolbar color={"secondary"}>
           <IonSearchbar />
@@ -107,6 +149,7 @@ const Tasks: React.FC = () => {
         ) : (
           tasks.map((task) => (
             <TaskCard
+              key={task.id}
               task={task}
               toDelete={() => {
                 setTaskToDelete(task);
@@ -116,7 +159,6 @@ const Tasks: React.FC = () => {
                 setTaskToEdit(task);
                 setShowEditModal(true);
               }}
-              
               selectedTaskIds={selectedTaskIds}
               setSelectedTaskIds={setSelectedTaskIds}
             ></TaskCard>
