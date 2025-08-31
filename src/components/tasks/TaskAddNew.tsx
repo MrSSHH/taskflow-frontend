@@ -23,7 +23,7 @@ import { Task } from "../../types/task";
 
 type Props = {
   modal?: React.RefObject<HTMLIonModalElement | null>;
-  presentingElement: React.RefObject<HTMLElement | null>;
+  presentingElement: HTMLElement | null;
   showAddModal: boolean;
 
   setShowAddModal: (t: boolean) => void;
@@ -48,7 +48,8 @@ const TaskAddNew: React.FC<Props> = ({
         console.log(`Dismissed with role: ${detail.role}`);
       }}
       mode="ios"
-      presentingElement={presentingElement.current!}
+      initialBreakpoint={0.95}
+      presentingElement={presentingElement ?? undefined}
     >
       <IonContent scrollY={false}>
         <IonGrid fixed>

@@ -6,6 +6,7 @@ import { Task } from "../../types/task";
 type Props = {
   showAlert: boolean;
   taskToDelete: Task | number[] | null;
+
   setLoading: (t: boolean) => void;
   setSelectedTaskIds: (t: number[]) => void;
   setShowAlert: (t: boolean) => void;
@@ -37,7 +38,10 @@ const TaskDeleteConfirmation: React.FC<Props> = ({
           role: "confirm",
           handler: async () => {
             if (Array.isArray(taskToDelete)) {
-              taskToDelete.map((id) => deleteTask(id));
+              taskToDelete.map((id) => {
+                deleteTask(id);
+                console.log("delete: " + id);
+              });
               setSelectedTaskIds([]);
             } else {
               deleteTask(taskToDelete.id);

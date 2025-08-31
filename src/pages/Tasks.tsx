@@ -17,7 +17,7 @@ import {
   RefresherCustomEvent,
   useIonViewWillEnter,
 } from "@ionic/react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getTasks, deleteTask, editTask } from "../services/api";
 import { addOutline, logInOutline, trashBinOutline } from "ionicons/icons";
 
@@ -44,10 +44,15 @@ const Tasks: React.FC = () => {
 
   const [taskToAddModal, setTaskToAddModal] = useState<boolean>(false);
   const [selectedTaskIds, setSelectedTaskIds] = useState<number[]>([]);
-  const page = useRef<HTMLElement | null>(null);
+  const [presentingElement, setPresentingElement] =
+    useState<HTMLElement | null>(null);
+  const page = useRef(null);
 
   const modal = useRef<HTMLIonModalElement>(null);
 
+  useEffect(() => {
+    setPresentingElement(page.current);
+  }, []);
   const fetchTasks = async () => {
     await new Promise((resolve) =>
       setTimeout(() => {
@@ -84,7 +89,7 @@ const Tasks: React.FC = () => {
   }
 
   return (
-    <IonPage>
+    <IonPage ref={page}>
       <IonHeader>
         <IonToolbar color="secondary">
           <IonButtons slot="start">
@@ -192,7 +197,7 @@ const Tasks: React.FC = () => {
         </IonFab>
 
         <TaskAddNew
-          presentingElement={page}
+          presentingElement={presentingElement!}
           modal={modal}
           setShowAddModal={setTaskToAddModal}
           fetchTasks={fetchTasks}
