@@ -44,6 +44,7 @@ const Tasks: React.FC = () => {
 
   const [taskToAddModal, setTaskToAddModal] = useState<boolean>(false);
   const [selectedTaskIds, setSelectedTaskIds] = useState<number[]>([]);
+  const page = useRef<HTMLElement | null>(null);
 
   const modal = useRef<HTMLIonModalElement>(null);
 
@@ -191,6 +192,7 @@ const Tasks: React.FC = () => {
         </IonFab>
 
         <TaskAddNew
+          presentingElement={page}
           modal={modal}
           setShowAddModal={setTaskToAddModal}
           fetchTasks={fetchTasks}
