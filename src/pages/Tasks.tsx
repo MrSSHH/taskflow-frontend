@@ -92,6 +92,7 @@ const Tasks: React.FC = () => {
                 <IonButton
                   color="danger"
                   fill="solid"
+                  shape="round"
                   size="default"
                   onClick={async () => {
                     setTaskToDelete(selectedTaskIds);
@@ -114,6 +115,7 @@ const Tasks: React.FC = () => {
               <IonButton
                 color="light"
                 fill="solid"
+                shape="round"
                 size="default"
                 onClick={() => setSelectedTaskIds([])}
               >
