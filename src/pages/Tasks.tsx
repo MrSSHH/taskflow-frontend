@@ -34,7 +34,9 @@ const Tasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
 
-  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<Task | number[] | null>(
+    null
+  );
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
@@ -92,17 +94,8 @@ const Tasks: React.FC = () => {
                   fill="solid"
                   size="default"
                   onClick={async () => {
-                    deleteTask(selectedTaskIds);
-
-                    try {
-                      setLoading(true);
-                      await fetchTasks();
-                    } catch (err) {
-                      console.error("Failed to fetch tasks:", err);
-                    } finally {
-                      setLoading(false);
-                    }
-                    setSelectedTaskIds([]);
+                    setTaskToDelete(selectedTaskIds);
+                    setShowAlert(true);
                   }}
                 >
                   <IonIcon slot="start" icon={trashBinOutline} />
@@ -166,9 +159,10 @@ const Tasks: React.FC = () => {
         )}
         <TaskDeleteConfirmation
           showAlert={showAlert}
-          taskToDelete={taskToDelete}
-          setLoading={setLoading}
           setShowAlert={setShowAlert}
+          taskToDelete={selectedTaskIds}
+          setLoading={setLoading}
+          setSelectedTaskIds={setSelectedTaskIds}
           fetchTasks={fetchTasks}
         />
         <TaskEditModal
