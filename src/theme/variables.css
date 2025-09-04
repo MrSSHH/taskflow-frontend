@@ -1,2 +1,42 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+.custom-card {
+  --background: #f9f9ff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: scale(1.01);
+}
+
+.card-subtitle {
+  color: #6666cc;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+}
+.chart-container {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  padding: 16px;
+  min-height: 250px; /* Optional: controls vertical space */
+}
+.header-button {
+  font-size: 20px;
+  --color: #666;
+  margin-top: 4px;
+}
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-right: 8px;
+}
