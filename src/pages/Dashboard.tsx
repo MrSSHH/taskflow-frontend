@@ -18,6 +18,7 @@ import React from "react";
 import TasksStatisticsChart from "../components/dashboard/TasksStatisticsChart";
 import { Icon } from "ionicons/dist/types/components/icon/icon";
 import { reorderThreeOutline } from "ionicons/icons";
+import UpcomingTasksGrid from "../components/dashboard/UpcomingTasksGrid";
 
 const Dashboard: React.FC = () => {
   return (
@@ -51,6 +52,24 @@ const Dashboard: React.FC = () => {
             <div className="chart-container">
               <TasksStatisticsChart />
             </div>
+          </IonCardContent>
+        </IonCard>
+
+        <IonCard className="custom-card">
+          <IonCardHeader>
+            <div className="card-header-row">
+              <div>
+                <IonCardSubtitle className="card-subtitle">
+                  📅 Stay ahead of your deadlines
+                </IonCardSubtitle>
+                <IonCardTitle className="card-title">
+                  Upcoming tasks
+                </IonCardTitle>{" "}
+              </div>
+            </div>
+          </IonCardHeader>
+          <IonCardContent>
+            <UpcomingTasksGrid></UpcomingTasksGrid>
           </IonCardContent>
         </IonCard>
       </IonContent>
