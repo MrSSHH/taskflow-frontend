@@ -91,7 +91,7 @@ const Tasks: React.FC = () => {
   return (
     <IonPage ref={page}>
       <IonHeader>
-        <IonToolbar color="secondary">
+        <IonToolbar>
           <IonButtons slot="start">
             {selectedTaskIds.length > 0 ? (
               <>
@@ -130,11 +130,11 @@ const Tasks: React.FC = () => {
             )}
           </IonButtons>
         </IonToolbar>
-        <IonToolbar color={"secondary"}>
+        <IonToolbar>
           <IonSearchbar />
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className="content-darkmode">
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent />
         </IonRefresher>

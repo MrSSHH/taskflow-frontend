@@ -28,7 +28,7 @@ const AppShell: React.FC = () => {
     <IonPage>
       <IonMenu contentId="main">
         <IonHeader>
-          <IonToolbar color={"secondary"}>
+          <IonToolbar>
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
@@ -36,10 +36,11 @@ const AppShell: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-        <IonContent>
+        <IonContent className="content-darkmode">
           {pathes.map((item, index) => (
             <IonMenuToggle key={index}>
               <IonItem
+                className="content-darkmode"
                 lines="full"
                 routerLink={item.url}
                 routerDirection="none"
@@ -50,7 +51,12 @@ const AppShell: React.FC = () => {
           ))}
 
           <IonMenuToggle>
-            <IonItem routerLink="/" routerDirection="root" lines="full">
+            <IonItem
+              className="content-darkmode"
+              routerLink="/"
+              routerDirection="root"
+              lines="full"
+            >
               <IonIcon slot="start" icon={logOutOutline} />
               Logout
             </IonItem>

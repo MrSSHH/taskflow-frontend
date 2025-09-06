@@ -24,6 +24,8 @@ import {
 import Intro from "../components/intro";
 import { Preferences } from "@capacitor/preferences";
 import LoginPageIcon from "../assets/icons/login-page-icon.png";
+import "./Login.css"; // We'll add custom styles here
+
 const INTRO_KEY = "intro-seen";
 
 const Login: React.FC = () => {
@@ -58,6 +60,7 @@ const Login: React.FC = () => {
     setIntroSeen(false);
     await Preferences.remove({ key: INTRO_KEY });
   };
+
   return (
     <>
       {!introSeen ? (
@@ -65,60 +68,73 @@ const Login: React.FC = () => {
       ) : (
         <IonPage>
           <IonHeader>
-            <IonToolbar color="tertiary">
+            <IonToolbar className="modern-toolbar">
               <IonTitle>Taskflow</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <IonContent scrollY={false} className="ion-padding">
+          <IonContent scrollY={false} className="login-content">
+            <div className="login-background"></div>
             <IonGrid fixed>
-              <IonRow class="ion-justify-content-center">
+              <IonRow className="ion-justify-content-center ion-align-items-center min-height">
                 <IonCol size="12" sizeMd="8" sizeLg="6" sizeXl="4">
-                  <div className="ion-padding ion-text-center">
-                    <img
-                      src={LoginPageIcon}
-                      alt="LoginPageLogo"
-                      width="30%"
-                    ></img>
+                  {/* Logo Section */}
+                  <div className="logo-section">
+                    <div className="logo-container">
+                      <img
+                        src={LoginPageIcon}
+                        alt="Taskflow Logo"
+                        className="login-logo"
+                      />
+                    </div>
+                    <h1 className="welcome-text">Welcome back</h1>
+                    <p className="subtitle-text">Sign in to your account</p>
                   </div>
-                </IonCol>
-              </IonRow>
 
-              <IonRow class="ion-justify-content-center">
-                <IonCol size="12" sizeMd="8" sizeLg="6" sizeXl="4">
-                  <IonCard>
-                    <IonCardContent>
-                      <form onSubmit={doLogin}>
-                        <IonInput
-                          fill="outline"
-                          labelPlacement="floating"
-                          label="Email"
-                          type="email"
-                          placeholder="benm@comax.co.il"
-                        />
-                        <IonInput
-                          className="ion-margin-top"
-                          fill="outline"
-                          labelPlacement="floating"
-                          label="Password"
-                          type="password"
-                        />
+                  {/* Login Card */}
+                  <IonCard className="login-card">
+                    <IonCardContent className="card-content">
+                      <form onSubmit={doLogin} className="login-form">
+                        <div className="input-group">
+                          <IonInput
+                            fill="outline"
+                            labelPlacement="floating"
+                            label="Email"
+                            type="email"
+                            placeholder="Enter your email"
+                            className="modern-input"
+                          />
+                        </div>
+
+                        <div className="input-group">
+                          <IonInput
+                            fill="outline"
+                            labelPlacement="floating"
+                            label="Password"
+                            type="password"
+                            placeholder="Enter your password"
+                            className="modern-input"
+                          />
+                        </div>
+
                         <IonButton
-                          className="ion-margin-top"
+                          className="login-button"
                           type="submit"
                           expand="block"
+                          size="large"
                         >
-                          Login
+                          Sign In
                           <IonIcon icon={logInOutline} slot="end" />
                         </IonButton>
 
                         <IonButton
                           routerLink="/register"
-                          color="secondary"
-                          className="ion-margin-top"
+                          className="register-button"
                           type="button"
                           expand="block"
+                          fill="outline"
+                          size="large"
                         >
-                          Register
+                          Create Account
                           <IonIcon icon={personCircleOutline} slot="end" />
                         </IonButton>
 
@@ -126,12 +142,12 @@ const Login: React.FC = () => {
                           fill="clear"
                           size="small"
                           color="medium"
-                          className="ion-margin-top"
+                          className="intro-button"
                           onClick={watchIntroAgain}
                           type="button"
                           expand="block"
                         >
-                          Watch Intro
+                          Watch Intro Again
                           <IonIcon icon={repeatOutline} slot="end" />
                         </IonButton>
                       </form>

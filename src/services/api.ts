@@ -2,7 +2,7 @@ import axios from "axios";
 import { Task } from "../types/task";
 
 const api = axios.create({
-  baseURL: "http://192.168.60.22:3000/api",
+  baseURL: "http://192.168.50.52:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

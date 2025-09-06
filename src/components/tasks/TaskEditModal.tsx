@@ -51,7 +51,7 @@ const TaskEditModal: React.FC<Props> = ({
         console.log(`Dismissed with role: ${detail.role}`);
       }}
     >
-      <IonContent scrollY={false}>
+      <IonContent scrollY={false} className="content-darkmode">
         <IonGrid fixed>
           <IonRow class="ion-justify-content-center">
             <IonCol size="12">

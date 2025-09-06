@@ -48,10 +48,9 @@ const TaskAddNew: React.FC<Props> = ({
         console.log(`Dismissed with role: ${detail.role}`);
       }}
       mode="ios"
-      initialBreakpoint={0.95}
       presentingElement={presentingElement ?? undefined}
     >
-      <IonContent scrollY={false}>
+      <IonContent scrollY={false} className="content-darkmode">
         <IonGrid fixed>
           <IonRow class="ion-justify-content-center">
             <IonCol size="12">
