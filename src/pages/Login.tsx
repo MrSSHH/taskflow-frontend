@@ -24,7 +24,7 @@ import {
 import Intro from "../components/intro";
 import { Preferences } from "@capacitor/preferences";
 import LoginPageIcon from "../assets/icons/login-page-icon.png";
-import "./Login.css"; // We'll add custom styles here
+import "../theme/Login.css"; // We'll add custom styles here
 
 const INTRO_KEY = "intro-seen";
 

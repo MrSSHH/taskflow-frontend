@@ -1,13 +1,4 @@
-import {
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonPage,
-  IonRow,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
+import { IonCol, IonGrid, IonRow } from "@ionic/react";
 import React from "react";
 
 const UpcomingTasksGrid: React.FC = () => {

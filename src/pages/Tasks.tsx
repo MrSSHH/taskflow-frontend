@@ -27,6 +27,7 @@ import TaskSkeletonText from "../components/tasks/TaskSkeletonText";
 import TaskEditModal from "../components/tasks/TaskEditModal";
 import TaskDeleteConfirmation from "../components/tasks/TaskDeleteConfirmation";
 import TaskAddNew from "../components/tasks/TaskAddNew";
+import TasksNotFound from "../components/errors/TasksNotFound";
 
 const TIMEOUT_ANIMATION = 400; // 400 ms
 
@@ -87,7 +88,6 @@ const Tasks: React.FC = () => {
     setLoading(false);
     event.detail.complete();
   }
-
   return (
     <IonPage ref={page}>
       <IonHeader>
@@ -145,6 +145,7 @@ const Tasks: React.FC = () => {
           </>
         )}
 
+        {tasks.length == 0 && <TasksNotFound />}
         {loading ? (
           <IonText></IonText>
         ) : (

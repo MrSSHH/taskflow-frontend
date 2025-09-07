@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
@@ -10,7 +9,6 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
-  IonIcon,
   IonMenuButton,
   IonPage,
   IonRow,
@@ -19,8 +17,6 @@ import {
 } from "@ionic/react";
 import React from "react";
 import TasksStatisticsChart from "../components/dashboard/TasksStatisticsChart";
-import { Icon } from "ionicons/dist/types/components/icon/icon";
-import { reorderThreeOutline } from "ionicons/icons";
 import UpcomingTasksGrid from "../components/dashboard/UpcomingTasksGrid";
 
 const Dashboard: React.FC = () => {

@@ -1,0 +1,15 @@
+.no-tasks-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  background: var(--ion-background-color);
+}
+
+.no-tasks-text {
+  font-size: 18px;
+  color: var(--ion-color-medium);
+  margin-bottom: 20px;
+}
