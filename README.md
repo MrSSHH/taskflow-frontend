@@ -27,7 +27,6 @@ TaskFlow is a **mobile-first task management application** designed to help you 
 ### 🎯 Key Highlights
 - **Mobile-First Design** - Optimized for touch interactions and mobile workflows
 - **Native Performance** - Compiled to native iOS and Android apps using Capacitor
-- **Offline Capable** - Work without internet, sync when connected
 - **Modern Stack** - React + Ionic + TypeScript for maintainable, scalable code
 
 ## 🚧 Development Status
@@ -206,8 +205,6 @@ npx cap open android
 - 📱 **Native Device APIs** - Camera, notifications, file system
 - 🔄 **Background sync** - Data synchronization when app is closed
 - 📧 **Push notifications** - Stay updated with task reminders
-- 📁 **Local storage** - Offline data persistence
-- 🔐 **Secure storage** - Encrypted credential storage
 
 ## 📁 Project Structure
 ```
