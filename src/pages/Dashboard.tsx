@@ -1,10 +1,5 @@
 import {
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
   IonCol,
   IonContent,
   IonGrid,
@@ -16,8 +11,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React from "react";
-import TasksStatisticsChart from "../components/dashboard/TasksStatisticsChart";
-import UpcomingTasksGrid from "../components/dashboard/UpcomingTasksGrid";
+import TasksStatisticsCard from "../components/dashboard/TasksStatisticsCard";
+import UpcomingTasksCard from "../components/dashboard/UpcomingTasksCard";
 
 const Dashboard: React.FC = () => {
   return (
@@ -35,44 +30,10 @@ const Dashboard: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol size="12" sizeMd="6">
-              <IonCard className="custom-card">
-                <IonCardHeader>
-                  <div className="card-header-row">
-                    <div>
-                      <IonCardSubtitle className="card-subtitle">
-                        📊 Statistics
-                      </IonCardSubtitle>
-                      <IonCardTitle className="card-title">
-                        Tasks Overview
-                      </IonCardTitle>{" "}
-                    </div>
-                  </div>
-                </IonCardHeader>
-                <IonCardContent>
-                  <div className="chart-container">
-                    <TasksStatisticsChart />
-                  </div>
-                </IonCardContent>
-              </IonCard>
+              <TasksStatisticsCard />
             </IonCol>
             <IonCol size="12" sizeMd="6">
-              <IonCard className="custom-card">
-                <IonCardHeader>
-                  <div className="card-header-row">
-                    <div>
-                      <IonCardSubtitle className="card-subtitle">
-                        📅 Stay ahead of your deadlines
-                      </IonCardSubtitle>
-                      <IonCardTitle className="card-title">
-                        Upcoming tasks
-                      </IonCardTitle>{" "}
-                    </div>
-                  </div>
-                </IonCardHeader>
-                <IonCardContent>
-                  <UpcomingTasksGrid></UpcomingTasksGrid>
-                </IonCardContent>
-              </IonCard>
+              <UpcomingTasksCard />
             </IonCol>
           </IonRow>
         </IonGrid>
