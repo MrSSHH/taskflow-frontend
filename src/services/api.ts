@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Task } from "../types/task";
 
 const api = axios.create({
-  baseURL: "http://192.168.60.22:3000/api",
+  baseURL: "http://192.168.50.52:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -22,8 +22,10 @@ export function deleteTask(taskIdOrIds: number | number[]) {
   return api.delete(`/tasks/${taskIdOrIds}`);
 }
 
-export const getTasks = async () => {
-  return await api.get<Task[]>("/tasks");
+export const getTasks = async (fetchAmtTasks?: number) => {
+  return await (fetchAmtTasks
+    ? api.get<Task[]>(`/tasks?limit=${fetchAmtTasks}`)
+    : api.get<Task[]>(`/tasks`));
 };
 
 export const editTask = async (task: Task) => {

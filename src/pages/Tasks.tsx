@@ -169,7 +169,9 @@ const Tasks: React.FC = () => {
         <TaskDeleteConfirmation
           showAlert={showAlert}
           setShowAlert={setShowAlert}
-          taskToDelete={selectedTaskIds}
+          taskToDelete={
+            selectedTaskIds.length > 0 ? selectedTaskIds : taskToDelete
+          }
           setLoading={setLoading}
           setSelectedTaskIds={setSelectedTaskIds}
           fetchTasks={fetchTasks}

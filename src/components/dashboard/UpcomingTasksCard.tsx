@@ -7,10 +7,29 @@ import {
   IonCol,
   IonGrid,
   IonRow,
+  useIonViewWillEnter,
 } from "@ionic/react";
-import React from "react";
+import React, { useState } from "react";
+import { getTasks } from "../../services/api";
+import { Task } from "../../types/task";
+
+const DISPLAY_AMT_UPCOMING_TASKS = 5; // Display AMT of tasks on board
 
 const UpcomingTasksCard: React.FC = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+
+  useIonViewWillEnter(() => {
+    const run = async () => {
+      try {
+        const upcomingTasks = await getTasks(DISPLAY_AMT_UPCOMING_TASKS);
+        setTasks(upcomingTasks.data);
+      } catch (err) {
+        console.error("Failed to fetch tasks:", err);
+      }
+    };
+    run();
+  });
+
   return (
     <IonCard className="custom-card">
       <IonCardHeader>
@@ -29,10 +48,12 @@ const UpcomingTasksCard: React.FC = () => {
             <IonCol>Title</IonCol>
             <IonCol>Due date</IonCol>
           </IonRow>
-          <IonRow className="outlined-table">
-            <IonCol>Placeholder task</IonCol>
-            <IonCol>In 2 days</IonCol>
-          </IonRow>
+          {tasks.map((task) => (
+            <IonRow className="outlined-table">
+              <IonCol>{task.title}</IonCol>
+              <IonCol>{task.dueDates[0].dueDates}</IonCol>
+            </IonRow>
+          ))}
         </IonGrid>
       </IonCardContent>
     </IonCard>
