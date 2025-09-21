@@ -1,0 +1,105 @@
+diff --git a/src/components/dashboard/UpcomingTasksCard.tsx b/src/components/dashboard/UpcomingTasksCard.tsx
+index a9509b7..442dba7 100644
+--- a/src/components/dashboard/UpcomingTasksCard.tsx
++++ b/src/components/dashboard/UpcomingTasksCard.tsx
+@@ -49,9 +49,9 @@ const UpcomingTasksCard: React.FC = () => {
+             <IonCol>Due date</IonCol>
+           </IonRow>
+           {tasks.map((task) => (
+-            <IonRow className="outlined-table">
++            <IonRow key={task.id} className="outlined-table">
+               <IonCol>{task.title}</IonCol>
+-              <IonCol>{task.dueDates[0].dueDates}</IonCol>
++              <IonCol>{task.dueDate}</IonCol>
+             </IonRow>
+           ))}
+         </IonGrid>
+diff --git a/src/components/tasks/TaskCard.tsx b/src/components/tasks/TaskCard.tsx
+index aba2984..7a7849c 100644
+--- a/src/components/tasks/TaskCard.tsx
++++ b/src/components/tasks/TaskCard.tsx
+@@ -100,9 +100,7 @@ const TaskCard: React.FC<Props> = ({
+               />
+             )}
+           </div>
+-          <IonCardSubtitle>
+-            Closest due date: {task.dueDates[0].dueDates ?? "-"}
+-          </IonCardSubtitle>
++          <IonCardSubtitle>Closest due date: {task.dueDate}</IonCardSubtitle>
+         </IonCardHeader>
+         <IonCardContent>{task.body}</IonCardContent>
+ 
+diff --git a/src/components/tasks/TaskEditModal.tsx b/src/components/tasks/TaskEditModal.tsx
+index 8d54793..6132ac6 100644
+--- a/src/components/tasks/TaskEditModal.tsx
++++ b/src/components/tasks/TaskEditModal.tsx
+@@ -71,11 +71,9 @@ const TaskEditModal: React.FC<Props> = ({
+                           ...taskSelected,
+                           title: String(fd.get("title") ?? taskSelected.title),
+                           body: String(fd.get("body") ?? taskSelected.body),
+-                          dueDates: taskSelected.dueDates.map(
+-                            (d) => d.dueDates
+-                          ),
++                          dueDates: taskSelected.dueDate,
+                         };
+-                        updatedTask.dueDates[0] = formDate;
++                        updatedTask.dueDate = formDate;
+                         await editTask(updatedTask);
+                         setShowEditModal(false);
+                         setLoading(true);
+@@ -128,7 +126,7 @@ const TaskEditModal: React.FC<Props> = ({
+                             day: "2-digit",
+                           },
+                         }}
+-                        value={taskSelected?.dueDates[0].dueDates}
++                        value={taskSelected?.dueDate}
+                         preferWheel={true}
+                         doneText="All set"
+                         cancelText="Never mind"
+diff --git a/src/services/api.ts b/src/services/api.ts
+index 853903e..2704101 100644
+--- a/src/services/api.ts
++++ b/src/services/api.ts
+@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
+ import { Task } from "../types/task";
+ 
+ const api = axios.create({
+-  baseURL: "http://192.168.50.52:3000/api",
++  baseURL: "http://localhost:3000/api",
+   timeout: 10000,
+   headers: {
+     "Content-Type": "application/json",
+@@ -29,13 +29,13 @@ export const getTasks = async (fetchAmtTasks?: number) => {
+ };
+ 
+ export const editTask = async (task: Task) => {
+-  const taskJson = JSON.stringify(task, ["title", "body", "dueDates"], 2);
++  const taskJson = JSON.stringify(task, ["title", "body", "dueDate"], 2);
+   console.log(taskJson);
+   return await api.patch(`/tasks/${task.id}`, taskJson);
+ };
+ 
+ export const addTask = async (task: Task) => {
+-  const taskJson = JSON.stringify(task, ["title", "body", "dueDates"], 2);
++  const taskJson = JSON.stringify(task, ["title", "body", "dueDate"], 2);
+   console.log(taskJson);
+   return await api.post(`/tasks`, taskJson);
+ };
+diff --git a/src/types/task.ts b/src/types/task.ts
+index 3b77d7f..489d0a4 100644
+--- a/src/types/task.ts
++++ b/src/types/task.ts
+@@ -1,11 +1,11 @@
+ export interface DueDates {
+   id?: number;
+-  dueDates: string;
++  dueDate: string;
+ }
+ 
+ export interface Task {
+   id?: number;
+   title: string;
+   body: string;
+-  dueDates: DueDates[] | string[];
++  dueDate: string;
+ }

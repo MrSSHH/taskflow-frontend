@@ -72,7 +72,7 @@ const TaskAddNew: React.FC<Props> = ({
                       const taskObj: Task = {
                         title: String(fd.get("title")),
                         body: String(fd.get("body")),
-                        dueDates: [formDate],
+                        dueDate: formDate,
                       };
                       await addTask(taskObj);
                       setShowAddModal(false);

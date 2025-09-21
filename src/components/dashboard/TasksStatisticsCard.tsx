@@ -4,19 +4,29 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  useIonViewDidEnter,
 } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArcElement, Chart, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { getOverdueTasksAmt, getTasks } from "../../services/api";
 
-const TasksStatisticsChart: React.FC = () => {
+type Props = {
+  statsOfTasks: Record<"Completed" | "Overdue" | "tasksLeft", number>;
+};
+
+const TasksStatisticsChart: React.FC<Props> = ({ statsOfTasks }) => {
   Chart.register(ArcElement, Tooltip, Legend);
   const data = {
     labels: ["Completed", "Overdue", "Tasks left"],
     datasets: [
       {
         label: "# of tasks",
-        data: [12, 19, 3], // Completed, Overdue, Tasks Left
+        data: [
+          statsOfTasks.Completed,
+          statsOfTasks.Overdue,
+          statsOfTasks.tasksLeft,
+        ],
         backgroundColor: [
           "rgba(75, 192, 192, 0.6)", // ✅ Green (Completed)
           "rgba(255, 99, 132, 0.6)", // ❌ Red (Overdue)
@@ -36,6 +46,22 @@ const TasksStatisticsChart: React.FC = () => {
 };
 
 const TasksStatisticsCard: React.FC = () => {
+  const [stats, setStats] =
+    useState<Record<"Completed" | "Overdue" | "tasksLeft", number>>();
+  useIonViewDidEnter(() => {
+    const fetchStats = async () => {
+      const overdue = await getOverdueTasksAmt();
+      const tasksLeft = await getTasks();
+      console.log(overdue);
+      setStats({
+        // TODO: Once user authentication is implemented, retrieve and set the user's actual completed task count.
+        Completed: 0,
+        Overdue: overdue,
+        tasksLeft: tasksLeft.data.length,
+      });
+    };
+    fetchStats();
+  }, []);
   return (
     <IonCard className="custom-card">
       <IonCardHeader>
@@ -50,7 +76,15 @@ const TasksStatisticsCard: React.FC = () => {
       </IonCardHeader>
       <IonCardContent>
         <div className="chart-container">
-          <TasksStatisticsChart />
+          <TasksStatisticsChart
+            statsOfTasks={
+              stats ?? {
+                Completed: 5,
+                Overdue: 2,
+                tasksLeft: 8,
+              }
+            }
+          />
         </div>
       </IonCardContent>
     </IonCard>

@@ -193,6 +193,7 @@ const Tasks: React.FC = () => {
           <IonButton
             size="large"
             color="success"
+            disabled={selectedTaskIds.length > 0}
             onClick={() => setTaskToAddModal(true)}
           >
             <IonIcon slot="icon-only" icon={addOutline}></IonIcon>

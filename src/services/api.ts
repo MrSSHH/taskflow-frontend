@@ -28,6 +28,11 @@ export const getTasks = async (fetchAmtTasks?: number) => {
     : api.get<Task[]>(`/tasks`));
 };
 
+export const getOverdueTasksAmt = async () => {
+  const totalOverdue = await api.get(`/tasks/overdue`);
+  return totalOverdue.data.Overdue;
+};
+
 export const editTask = async (task: Task) => {
   const taskJson = JSON.stringify(task, ["title", "body", "dueDate"], 2);
   console.log(taskJson);
@@ -36,6 +41,5 @@ export const editTask = async (task: Task) => {
 
 export const addTask = async (task: Task) => {
   const taskJson = JSON.stringify(task, ["title", "body", "dueDate"], 2);
-  console.log(taskJson);
   return await api.post(`/tasks`, taskJson);
 };
