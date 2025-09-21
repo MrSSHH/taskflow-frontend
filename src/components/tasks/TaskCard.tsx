@@ -100,9 +100,7 @@ const TaskCard: React.FC<Props> = ({
               />
             )}
           </div>
-          <IonCardSubtitle>
-            Closest due date: {task.dueDates[0].dueDates ?? "-"}
-          </IonCardSubtitle>
+          <IonCardSubtitle>Closest due date: {task.dueDate}</IonCardSubtitle>
         </IonCardHeader>
         <IonCardContent>{task.body}</IonCardContent>
 

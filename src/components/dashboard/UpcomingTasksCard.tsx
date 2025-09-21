@@ -49,9 +49,9 @@ const UpcomingTasksCard: React.FC = () => {
             <IonCol>Due date</IonCol>
           </IonRow>
           {tasks.map((task) => (
-            <IonRow className="outlined-table">
+            <IonRow key={task.id} className="outlined-table">
               <IonCol>{task.title}</IonCol>
-              <IonCol>{task.dueDates[0].dueDates}</IonCol>
+              <IonCol>{task.dueDate}</IonCol>
             </IonRow>
           ))}
         </IonGrid>

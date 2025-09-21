@@ -71,11 +71,9 @@ const TaskEditModal: React.FC<Props> = ({
                           ...taskSelected,
                           title: String(fd.get("title") ?? taskSelected.title),
                           body: String(fd.get("body") ?? taskSelected.body),
-                          dueDates: taskSelected.dueDates.map(
-                            (d) => d.dueDates
-                          ),
+                          dueDates: taskSelected.dueDate,
                         };
-                        updatedTask.dueDates[0] = formDate;
+                        updatedTask.dueDate = formDate;
                         await editTask(updatedTask);
                         setShowEditModal(false);
                         setLoading(true);
@@ -128,7 +126,7 @@ const TaskEditModal: React.FC<Props> = ({
                             day: "2-digit",
                           },
                         }}
-                        value={taskSelected?.dueDates[0].dueDates}
+                        value={taskSelected?.dueDate}
                         preferWheel={true}
                         doneText="All set"
                         cancelText="Never mind"
