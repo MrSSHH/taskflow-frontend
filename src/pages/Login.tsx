@@ -25,6 +25,8 @@ import Intro from "../components/intro";
 import { Preferences } from "@capacitor/preferences";
 import LoginPageIcon from "../assets/icons/login-page-icon.png";
 import "../theme/Login.css"; // We'll add custom styles here
+import GoogleAuthBtn from "../components/buttons/GoogleAuthBtn";
+import { SocialLogin } from "@capgo/capacitor-social-login";
 
 const INTRO_KEY = "intro-seen";
 
@@ -32,7 +34,15 @@ const Login: React.FC = () => {
   const [introSeen, setIntroSeen] = useState(false);
   const router = useIonRouter();
   const [present, dismiss] = useIonLoading();
-
+  const init = async () => {
+    await SocialLogin.initialize({
+      google: {
+        iOSClientId:
+          "789609970397-gjhov389ke7vcnl1nqec28soeb5m7olk.apps.googleusercontent.com", // for iOS
+      },
+    });
+  };
+  init();
   useEffect(() => {
     const checkStorage = async () => {
       const seen = await Preferences.get({ key: INTRO_KEY });
@@ -137,6 +147,7 @@ const Login: React.FC = () => {
                           Create Account
                           <IonIcon icon={personCircleOutline} slot="end" />
                         </IonButton>
+                        <GoogleAuthBtn />
 
                         <IonButton
                           fill="clear"

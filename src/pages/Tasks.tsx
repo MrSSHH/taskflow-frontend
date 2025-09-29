@@ -18,8 +18,8 @@ import {
   useIonViewWillEnter,
 } from "@ionic/react";
 import React, { useEffect, useRef, useState } from "react";
-import { getTasks, deleteTask, editTask } from "../services/api";
-import { addOutline, logInOutline, trashBinOutline } from "ionicons/icons";
+import { getTasks } from "../services/api";
+import { addOutline, trashBinOutline } from "ionicons/icons";
 
 import { Task } from "../types/task";
 import TaskCard from "../components/tasks/TaskCard";

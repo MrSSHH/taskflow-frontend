@@ -1,9 +1,10 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'myApp',
-  webDir: 'dist'
+  appId: "com.benji.taskflow",
+  appName: "Taskflow",
+  webDir: "dist",
+  plugins: {},
 };
 
 export default config;

@@ -6,7 +6,7 @@ import {
   IonCardTitle,
   useIonViewDidEnter,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ArcElement, Chart, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { getOverdueTasksAmt, getTasks } from "../../services/api";
@@ -79,9 +79,9 @@ const TasksStatisticsCard: React.FC = () => {
           <TasksStatisticsChart
             statsOfTasks={
               stats ?? {
-                Completed: 5,
-                Overdue: 2,
-                tasksLeft: 8,
+                Completed: 0,
+                Overdue: 0,
+                tasksLeft: 0,
               }
             }
           />

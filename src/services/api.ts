@@ -1,8 +1,9 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { Task } from "../types/task";
+import { GoogleLoginResponse } from "@capgo/capacitor-social-login";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://192.168.50.52:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -42,4 +43,9 @@ export const editTask = async (task: Task) => {
 export const addTask = async (task: Task) => {
   const taskJson = JSON.stringify(task, ["title", "body", "dueDate"], 2);
   return await api.post(`/tasks`, taskJson);
+};
+
+export const loginWithGoogle = async (result: GoogleLoginResponse) => {
+  console.log("Sending API the google token !");
+  return api.post("/auth/google/", result);
 };
