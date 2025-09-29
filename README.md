@@ -41,7 +41,8 @@ TaskFlow is a **mobile-first task management application** designed to help you 
 
 ### 🔄 **Currently Building**
 - [ ] Core task management features
-- [ ] User authentication flow
+- [x] User authentication flow (Google OAuth via Capacitor – working ✅)
+- [ ] Local authentication (in progress…)
 - [ ] Task CRUD operations
 - [ ] Mobile-specific optimizations
 
