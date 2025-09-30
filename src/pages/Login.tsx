@@ -39,6 +39,8 @@ const Login: React.FC = () => {
       google: {
         iOSClientId:
           "789609970397-gjhov389ke7vcnl1nqec28soeb5m7olk.apps.googleusercontent.com", // for iOS
+        webClientId:
+          "789609970397-i7sf5ucvrf2ba1dmecnoh56mom2kpelg.apps.googleusercontent.com", // for Web/Android
       },
     });
   };
