@@ -1,6 +1,16 @@
 import axios from "axios";
 import { Task } from "../types/task";
-import { GoogleLoginResponse } from "@capgo/capacitor-social-login";
+export interface AuthGoogleResponse {
+  accessToken: string;
+  user: {
+    id: number;
+    googleId: string;
+    email: string;
+    name: string;
+    picture: string;
+    createdAt: string; // ISO date string
+  };
+}
 
 const api = axios.create({
   baseURL: "http://192.168.50.52:3000/api",
@@ -45,7 +55,8 @@ export const addTask = async (task: Task) => {
   return await api.post(`/tasks`, taskJson);
 };
 
-export const loginWithGoogle = async (result: GoogleLoginResponse) => {
+export const loginWithGoogle = async (idToken: string) => {
   console.log("Sending API the google token !");
-  return api.post("/auth/google/", result);
+  const res = await api.post("/auth/google/", { idToken });
+  return res.data as Promise<AuthGoogleResponse>;
 };

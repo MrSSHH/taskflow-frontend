@@ -24,7 +24,7 @@ import {
 import Intro from "../components/intro";
 import { Preferences } from "@capacitor/preferences";
 import LoginPageIcon from "../assets/icons/login-page-icon.png";
-import "../theme/Login.css"; // We'll add custom styles here
+import "../theme/Login.css";
 import GoogleAuthBtn from "../components/buttons/GoogleAuthBtn";
 import { SocialLogin } from "@capgo/capacitor-social-login";
 
