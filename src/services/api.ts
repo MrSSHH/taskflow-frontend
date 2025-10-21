@@ -12,8 +12,8 @@ export interface AuthGoogleResponse {
   };
 }
 
-const api = axios.create({
-  baseURL: "http://192.168.50.52:3000/api",
+export const api = axios.create({
+  baseURL: "http://192.168.60.22:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

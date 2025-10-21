@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { IonButton, IonIcon, IonSpinner } from "@ionic/react";
+import {
+  IonButton,
+  IonIcon,
+  IonSpinner,
+  useIonRouter,
+  useIonViewDidEnter,
+} from "@ionic/react";
 import { logoGoogle } from "ionicons/icons";
 import { SocialLogin } from "@capgo/capacitor-social-login";
 import "../../theme/Login.css";
@@ -27,6 +33,7 @@ interface GoogleLoginResponse {
 
 const GoogleLoginBtn: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const router = useIonRouter();
 
   const handleGoogleLogin = async () => {
     setLoading(true);
@@ -39,7 +46,10 @@ const GoogleLoginBtn: React.FC = () => {
         googleResponse.result.idToken
       );
       saveToken(authGoogleResponse.accessToken); // Save token on device for next time
+
       console.log(`Saved token on device: ${getToken()}`);
+      // refresh login page to run the UseEffect on the first render
+      router.push("/", "root");
     } catch (err: any) {
       if (err?.message?.includes("canceled")) {
         console.log("User canceled login");
@@ -50,7 +60,6 @@ const GoogleLoginBtn: React.FC = () => {
       setLoading(false);
     }
   };
-
   const signIn = async (): Promise<GoogleLoginResponse> => {
     const res = await SocialLogin.login({
       provider: "google",

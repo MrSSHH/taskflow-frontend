@@ -27,10 +27,16 @@ import LoginPageIcon from "../assets/icons/login-page-icon.png";
 import "../theme/Login.css";
 import GoogleAuthBtn from "../components/buttons/GoogleAuthBtn";
 import { SocialLogin } from "@capgo/capacitor-social-login";
+import { isUserLoggedIn } from "../utils/auth";
+import { useHistory } from "react-router-dom";
+import { api } from "../services/api";
+import { getToken } from "../lib/auth-stroage";
 
 const INTRO_KEY = "intro-seen";
 
 const Login: React.FC = () => {
+  const history = useHistory();
+
   const [introSeen, setIntroSeen] = useState(false);
   const router = useIonRouter();
   const [present, dismiss] = useIonLoading();
@@ -51,7 +57,19 @@ const Login: React.FC = () => {
       console.log("~ file: Login.tsx:17 ~ checkStorage seen: ", seen);
       setIntroSeen(seen.value === "true");
     };
+    const checkLogin = async () => {
+      if (await isUserLoggedIn()) {
+        const token = await getToken();
+
+        api.interceptors.request.use((config) => {
+          config.headers.Authorization = "Bearer " + token;
+          return config;
+        });
+        router.push("/app", "root");
+      }
+    };
     checkStorage();
+    checkLogin();
   }, []);
 
   const doLogin = async (event: any) => {
