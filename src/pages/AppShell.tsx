@@ -13,12 +13,20 @@ import {
   IonTitle,
   IonToolbar,
   IonRouterOutlet,
+  useIonRouter,
 } from "@ionic/react";
 import { Redirect, Route } from "react-router";
 import TabsLayout from "./TabsLayout";
 import Settings from "./Settings";
+import { removeToken } from "../lib/auth-stroage";
 
 const AppShell: React.FC = () => {
+  const router = useIonRouter();
+
+  const handleLogout = async () => {
+    await removeToken();
+    router.push("/", "root"); // navigate to login
+  };
   const pathes = [
     { name: "Home", url: "/app/tabs", icon: homeOutline },
     { name: "Settings", url: "/app/settings", icon: newspaperOutline },
@@ -53,8 +61,7 @@ const AppShell: React.FC = () => {
           <IonMenuToggle>
             <IonItem
               className="content-darkmode"
-              routerLink="/"
-              routerDirection="root"
+              onClick={handleLogout}
               lines="full"
             >
               <IonIcon slot="start" icon={logOutOutline} />

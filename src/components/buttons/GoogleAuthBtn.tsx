@@ -49,7 +49,7 @@ const GoogleLoginBtn: React.FC = () => {
 
       console.log(`Saved token on device: ${getToken()}`);
       // refresh login page to run the UseEffect on the first render
-      router.push("/", "root");
+      router.push("/app", "root");
     } catch (err: any) {
       if (err?.message?.includes("canceled")) {
         console.log("User canceled login");
