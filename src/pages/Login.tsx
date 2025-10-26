@@ -38,6 +38,7 @@ const Login: React.FC = () => {
   const [introSeen, setIntroSeen] = useState(false);
   const router = useIonRouter();
   const [present, dismiss] = useIonLoading();
+  const [loading, setLoading] = useState(true);
   const init = async () => {
     await SocialLogin.initialize({
       google: {
@@ -50,12 +51,10 @@ const Login: React.FC = () => {
   };
   init();
   useEffect(() => {
-    const checkStorage = async () => {
+    const initApp = async () => {
       const seen = await Preferences.get({ key: INTRO_KEY });
       console.log("~ file: Login.tsx:17 ~ checkStorage seen: ", seen);
       setIntroSeen(seen.value === "true");
-    };
-    const checkLogin = async () => {
       const isUserLoggedin = isUserLoggedIn();
       if (await isUserLoggedin) {
         const token = await getToken();
@@ -69,9 +68,9 @@ const Login: React.FC = () => {
       } else {
         router.push("/");
       }
+      setLoading(false);
     };
-    checkStorage();
-    checkLogin();
+    initApp();
   }, []);
 
   const doLogin = async (event: any) => {
@@ -92,7 +91,7 @@ const Login: React.FC = () => {
     setIntroSeen(false);
     await Preferences.remove({ key: INTRO_KEY });
   };
-
+  if (loading) return true;
   return (
     <>
       {!introSeen ? (
