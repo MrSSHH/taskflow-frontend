@@ -30,6 +30,7 @@ import { SocialLogin } from "@capgo/capacitor-social-login";
 import { isUserLoggedIn } from "../lib/auth";
 import { api } from "../services/api";
 import { getToken } from "../lib/auth-stroage";
+import { setSession } from "../utils/session-store";
 
 const INTRO_KEY = "intro-seen";
 
@@ -63,6 +64,7 @@ const Login: React.FC = () => {
           config.headers.Authorization = "Bearer " + token;
           return config;
         });
+        setSession(token);
         router.push("/app", "root");
       } else {
         router.push("/");

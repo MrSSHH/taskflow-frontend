@@ -9,7 +9,7 @@ import {
 import { logoGoogle } from "ionicons/icons";
 import { SocialLogin } from "@capgo/capacitor-social-login";
 import "../../theme/Login.css";
-import { loginWithGoogle } from "../../services/api";
+import { api, loginWithGoogle } from "../../services/api";
 import { getToken, saveToken } from "../../lib/auth-stroage";
 interface GoogleLoginResponse {
   provider: "google";
@@ -45,9 +45,16 @@ const GoogleLoginBtn: React.FC = () => {
       const authGoogleResponse = await loginWithGoogle(
         googleResponse.result.idToken
       );
+
       saveToken(authGoogleResponse.accessToken); // Save token on device for next time
 
-      console.log(`Saved token on device: ${getToken()}`);
+      api.interceptors.request.use((config) => {
+        config.headers.Authorization =
+          "Bearer " + authGoogleResponse.accessToken;
+        return config;
+      });
+
+      console.log(`Saved token on device: ${authGoogleResponse.accessToken}`);
       // refresh login page to run the UseEffect on the first render
       router.push("/app", "root");
     } catch (err: any) {

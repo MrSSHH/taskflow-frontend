@@ -1,8 +1,10 @@
 import { Preferences } from "@capacitor/preferences";
+import { setSession } from "../utils/session-store";
 
 const TOKEN_KEY = "access_token";
 
 export async function saveToken(token: string) {
+  await setSession(token);
   await Preferences.set({ key: TOKEN_KEY, value: token });
 }
 

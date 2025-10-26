@@ -34,6 +34,7 @@ import "./theme/variables.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AppShell from "./pages/AppShell";
+import { PrivateRoute } from "./utils/ProtectedRoute";
 
 setupIonicReact();
 
@@ -47,7 +48,9 @@ const App: React.FC = () => (
         <Route exact path="/register">
           <Register />
         </Route>
-        <Route path="/app" component={AppShell} />
+        <PrivateRoute>
+          <Route path="/app" component={AppShell} />
+        </PrivateRoute>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

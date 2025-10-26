@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { logOutOutline, newspaperOutline, homeOutline } from "ionicons/icons";
 import {
   IonPage,
@@ -19,12 +19,14 @@ import { Redirect, Route } from "react-router";
 import TabsLayout from "./TabsLayout";
 import Settings from "./Settings";
 import { removeToken } from "../lib/auth-stroage";
+import { setSession } from "../utils/session-store";
 
 const AppShell: React.FC = () => {
   const router = useIonRouter();
 
   const handleLogout = async () => {
     await removeToken();
+    await setSession(null);
     router.push("/", "root"); // navigate to login
   };
   const pathes = [
