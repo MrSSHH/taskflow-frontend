@@ -27,9 +27,9 @@ import LoginPageIcon from "../assets/icons/login-page-icon.png";
 import "../theme/Login.css";
 import GoogleAuthBtn from "../components/buttons/GoogleAuthBtn";
 import { SocialLogin } from "@capgo/capacitor-social-login";
-import { isUserLoggedIn } from "../lib/auth";
+import { isUserLoggedIn } from "../lib/auth-verification";
 import { api } from "../services/api";
-import { getToken } from "../lib/auth-stroage";
+import { getToken, removeToken } from "../lib/auth-stroage";
 import { setSession } from "../utils/session-store";
 
 const INTRO_KEY = "intro-seen";
@@ -63,9 +63,24 @@ const Login: React.FC = () => {
           config.headers.Authorization = "Bearer " + token;
           return config;
         });
+        api.interceptors.response.use(
+          (response) => response,
+          async (error) => {
+            if (error.response?.status === 401) {
+              console.warn("Token invalid or expired — logging out user...");
+              await removeToken();
+              setSession(null);
+              router.push("/");
+            }
+            return Promise.reject(error);
+          }
+        );
+
         setSession(token);
         router.push("/app", "root");
       } else {
+        setSession(null);
+        await removeToken();
         router.push("/");
       }
       setLoading(false);

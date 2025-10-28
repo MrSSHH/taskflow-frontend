@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Task } from "../types/task";
-import { getSnapshot, subscribe } from "../utils/session-store";
 export interface AuthGoogleResponse {
   accessToken: string;
   user: {
@@ -14,7 +13,7 @@ export interface AuthGoogleResponse {
 }
 
 export const api = axios.create({
-  baseURL: "http://192.168.60.22:3000/api",
+  baseURL: "http://192.168.50.52:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -24,6 +23,7 @@ export const api = axios.create({
 export function deleteTask(taskIdOrIds: number): Promise<any>;
 export function deleteTask(taskIdOrIds: number[]): Promise<any[]>;
 
+// TODO: make this deleteTask function async
 export function deleteTask(taskIdOrIds: number | number[]) {
   if (Array.isArray(taskIdOrIds)) {
     return Promise.all(
@@ -61,3 +61,22 @@ export const loginWithGoogle = async (idToken: string) => {
   const res = await api.post("/auth/google/", { idToken });
   return res.data as Promise<AuthGoogleResponse>;
 };
+
+// export const validateJwtToken = async (jwtToken: string): Promise<boolean> => {
+//   console.log("Starting to validate the JWT token with the backend");
+//   try {
+//     const res = await api.get("/auth/validate-token", {
+//       headers: { Authorization: jwtToken },
+//     });
+//     console.log(res.data);
+//   } catch (error: any) {
+//     if (axios.isAxiosError(error)) {
+//       if (error.response?.status == 401) {
+//         console.warn("Unauthorized — token might be invalid or expired.");
+//         return false;
+//       }
+//     }
+//   }
+
+//   return true;
+// };
