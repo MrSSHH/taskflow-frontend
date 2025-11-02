@@ -1,16 +1,10 @@
 import React, { useState } from "react";
-import {
-  IonButton,
-  IonIcon,
-  IonSpinner,
-  useIonRouter,
-  useIonViewDidEnter,
-} from "@ionic/react";
+import { IonButton, IonIcon, IonSpinner, useIonRouter } from "@ionic/react";
 import { logoGoogle } from "ionicons/icons";
 import { SocialLogin } from "@capgo/capacitor-social-login";
 import "../../theme/Login.css";
 import { api, loginWithGoogle } from "../../services/api";
-import { getToken, saveToken } from "../../lib/auth-stroage";
+import { saveToken } from "../../lib/auth-stroage";
 interface GoogleLoginResponse {
   provider: "google";
   result: {
@@ -61,9 +55,11 @@ const GoogleLoginBtn: React.FC = () => {
       console.log(`Saved token on device: ${authGoogleResponse.accessToken}`);
       // refresh login page to run the UseEffect on the first render
       router.push("/app", "root");
-    } catch (err: any) {
-      if (err?.message?.includes("canceled")) {
-        console.log("User canceled login");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        if (err?.message?.includes("canceled")) {
+          console.log("User canceled login");
+        }
       } else {
         console.error("Login failed: ", err);
       }

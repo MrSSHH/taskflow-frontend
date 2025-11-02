@@ -15,7 +15,7 @@ import {
   IonRow,
   IonCol,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import {
   logInOutline,
   personCircleOutline,
@@ -28,8 +28,8 @@ import "../theme/Login.css";
 import GoogleAuthBtn from "../components/buttons/GoogleAuthBtn";
 import { SocialLogin } from "@capgo/capacitor-social-login";
 import { isUserLoggedIn } from "../lib/auth-verification";
-import { api, setupInterceptors } from "../services/api";
-import { getToken, removeToken, saveToken } from "../lib/auth-stroage";
+import { setupInterceptors } from "../services/api";
+import { getToken, removeToken } from "../lib/auth-stroage";
 import { setSession } from "../utils/session-store";
 
 const INTRO_KEY = "intro-seen";
@@ -83,10 +83,10 @@ const Login: React.FC = () => {
       setLoading(false);
     };
     initApp();
-  }, []);
+  });
 
   // Handle manual login button (for email/password)
-  const doLogin = async (event: any) => {
+  const doLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     await present("Logging in...");
     setTimeout(() => {
