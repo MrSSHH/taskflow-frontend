@@ -19,6 +19,7 @@ interface GoogleLoginResponse {
       expires: string;
       // ... other token fields
     } | null;
+
     idToken: string;
     profile: {
       email: string | null;
@@ -45,8 +46,11 @@ const GoogleLoginBtn: React.FC = () => {
       const authGoogleResponse = await loginWithGoogle(
         googleResponse.result.idToken
       );
-
-      saveToken(authGoogleResponse.accessToken); // Save token on device for next time
+      console.log("ALERT : GOOGLE AUTH: " + authGoogleResponse.refreshToken);
+      saveToken({
+        accessToken: authGoogleResponse.accessToken,
+        refreshToken: authGoogleResponse.refreshToken,
+      }); // Save token on device for next time
 
       api.interceptors.request.use((config) => {
         config.headers.Authorization =

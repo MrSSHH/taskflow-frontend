@@ -28,66 +28,64 @@ import "../theme/Login.css";
 import GoogleAuthBtn from "../components/buttons/GoogleAuthBtn";
 import { SocialLogin } from "@capgo/capacitor-social-login";
 import { isUserLoggedIn } from "../lib/auth-verification";
-import { api } from "../services/api";
-import { getToken, removeToken } from "../lib/auth-stroage";
+import { api, setupInterceptors } from "../services/api";
+import { getToken, removeToken, saveToken } from "../lib/auth-stroage";
 import { setSession } from "../utils/session-store";
 
 const INTRO_KEY = "intro-seen";
 
 const Login: React.FC = () => {
+  // UI and app state
   const [introSeen, setIntroSeen] = useState(false);
   const router = useIonRouter();
   const [present, dismiss] = useIonLoading();
   const [loading, setLoading] = useState(true);
+
+  // Initialize Google login configuration
   const init = async () => {
     await SocialLogin.initialize({
       google: {
         iOSClientId:
-          "789609970397-gjhov389ke7vcnl1nqec28soeb5m7olk.apps.googleusercontent.com", // for iOS
+          "789609970397-gjhov389ke7vcnl1nqec28soeb5m7olk.apps.googleusercontent.com",
         webClientId:
-          "789609970397-i7sf5ucvrf2ba1dmecnoh56mom2kpelg.apps.googleusercontent.com", // for Web/Android
+          "789609970397-i7sf5ucvrf2ba1dmecnoh56mom2kpelg.apps.googleusercontent.com",
       },
     });
   };
   init();
+
+  // Run on mount: check intro, login, and token status
   useEffect(() => {
     const initApp = async () => {
+      // Check if intro was previously seen
       const seen = await Preferences.get({ key: INTRO_KEY });
-      console.log("~ file: Login.tsx:17 ~ checkStorage seen: ", seen);
       setIntroSeen(seen.value === "true");
+
+      // Verify login and restore session if valid
       const isUserLoggedin = isUserLoggedIn();
       if (await isUserLoggedin) {
-        const token = await getToken();
+        await setupInterceptors();
+        const tokens = await getToken();
+        setSession(tokens);
 
-        api.interceptors.request.use((config) => {
-          config.headers.Authorization = "Bearer " + token;
-          return config;
-        });
-        api.interceptors.response.use(
-          (response) => response,
-          async (error) => {
-            if (error.response?.status === 401) {
-              console.warn("Token invalid or expired — logging out user...");
-              await removeToken();
-              setSession(null);
-              router.push("/");
-            }
-            return Promise.reject(error);
-          }
-        );
-
-        setSession(token);
-        router.push("/app", "root");
+        // Redirect logged-in user to app
+        if (router.routeInfo.pathname !== "/app") {
+          router.push("/app", "root");
+        }
       } else {
+        // If not logged in, clear session and return to home
         setSession(null);
         await removeToken();
-        router.push("/");
+        if (router.routeInfo.pathname !== "/") {
+          router.push("/", "root");
+        }
       }
       setLoading(false);
     };
     initApp();
   }, []);
 
+  // Handle manual login button (for email/password)
   const doLogin = async (event: any) => {
     event.preventDefault();
     await present("Logging in...");
@@ -97,33 +95,42 @@ const Login: React.FC = () => {
     }, 2000);
   };
 
+  // Mark intro as seen
   const finishIntro = async () => {
     await Preferences.set({ key: INTRO_KEY, value: "true" });
     setIntroSeen(true);
   };
 
+  // Allow user to rewatch intro
   const watchIntroAgain = async () => {
     setIntroSeen(false);
     await Preferences.remove({ key: INTRO_KEY });
   };
+
+  // Show nothing until initialization completes
   if (loading) return true;
+
   return (
     <>
       {!introSeen ? (
+        // Intro screen shown if not seen before
         <Intro onFinish={finishIntro} />
       ) : (
+        // Login screen
         <IonPage>
           <IonHeader>
             <IonToolbar className="modern-toolbar">
               <IonTitle>Taskflow</IonTitle>
             </IonToolbar>
           </IonHeader>
+
           <IonContent scrollY={false} className="login-content">
             <div className="login-background"></div>
+
             <IonGrid fixed>
               <IonRow className="ion-justify-content-center ion-align-items-center min-height">
                 <IonCol size="12" sizeMd="8" sizeLg="6" sizeXl="4">
-                  {/* Logo Section */}
+                  {/* Logo and welcome text */}
                   <div className="logo-section">
                     <div className="logo-container">
                       <img
@@ -136,10 +143,11 @@ const Login: React.FC = () => {
                     <p className="subtitle-text">Sign in to your account</p>
                   </div>
 
-                  {/* Login Card */}
+                  {/* Login form */}
                   <IonCard className="login-card">
                     <IonCardContent className="card-content">
                       <form onSubmit={doLogin} className="login-form">
+                        {/* Email input */}
                         <div className="input-group">
                           <IonInput
                             fill="outline"
@@ -151,6 +159,7 @@ const Login: React.FC = () => {
                           />
                         </div>
 
+                        {/* Password input */}
                         <div className="input-group">
                           <IonInput
                             fill="outline"
@@ -162,6 +171,7 @@ const Login: React.FC = () => {
                           />
                         </div>
 
+                        {/* Login button */}
                         <IonButton
                           className="login-button"
                           type="submit"
@@ -172,6 +182,7 @@ const Login: React.FC = () => {
                           <IonIcon icon={logInOutline} slot="end" />
                         </IonButton>
 
+                        {/* Navigate to register */}
                         <IonButton
                           routerLink="/register"
                           className="register-button"
@@ -183,8 +194,11 @@ const Login: React.FC = () => {
                           Create Account
                           <IonIcon icon={personCircleOutline} slot="end" />
                         </IonButton>
+
+                        {/* Google login button */}
                         <GoogleAuthBtn />
 
+                        {/* Replay intro button */}
                         <IonButton
                           fill="clear"
                           size="small"

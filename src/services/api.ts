@@ -1,7 +1,11 @@
 import axios from "axios";
 import { Task } from "../types/task";
+import { getToken, removeToken, saveToken } from "../lib/auth-stroage";
+import { remove } from "ionicons/icons";
+
 export interface AuthGoogleResponse {
   accessToken: string;
+  refreshToken: string;
   user: {
     id: number;
     googleId: string;
@@ -12,25 +16,47 @@ export interface AuthGoogleResponse {
   };
 }
 
+// ========== GLOBAL FLAGS ==========
+let isRefreshingToken: boolean = false;
+let subscribersList: ((newToken: string) => void)[] = [];
+
+// Push waiting request callbacks to queue
+const addSubscriber = (callback: (newToken: string) => void) => {
+  subscribersList.push(callback);
+};
+
+// Call all queued requests once refresh finishes
+const notifySubscribers = (newToken: string) => {
+  subscribersList.forEach((cb) => cb(newToken));
+  subscribersList = [];
+};
+
+// ========== AXIOS INSTANCES ==========
 export const api = axios.create({
-  baseURL: "http://192.168.50.52:3000/api",
+  baseURL: "http://localhost:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
+const refreshApi = axios.create({
+  baseURL: "http://localhost:3000/api",
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// ========== API METHODS ==========
 export function deleteTask(taskIdOrIds: number): Promise<any>;
 export function deleteTask(taskIdOrIds: number[]): Promise<any[]>;
-
-// TODO: make this deleteTask function async
 export function deleteTask(taskIdOrIds: number | number[]) {
   if (Array.isArray(taskIdOrIds)) {
     return Promise.all(
       taskIdOrIds.map((taskId) => api.delete(`/tasks/${taskId}`))
     );
   }
-
   return api.delete(`/tasks/${taskIdOrIds}`);
 }
 
@@ -62,21 +88,79 @@ export const loginWithGoogle = async (idToken: string) => {
   return res.data as Promise<AuthGoogleResponse>;
 };
 
-// export const validateJwtToken = async (jwtToken: string): Promise<boolean> => {
-//   console.log("Starting to validate the JWT token with the backend");
-//   try {
-//     const res = await api.get("/auth/validate-token", {
-//       headers: { Authorization: jwtToken },
-//     });
-//     console.log(res.data);
-//   } catch (error: any) {
-//     if (axios.isAxiosError(error)) {
-//       if (error.response?.status == 401) {
-//         console.warn("Unauthorized — token might be invalid or expired.");
-//         return false;
-//       }
-//     }
-//   }
+// ========== INTERCEPTORS ==========
+export const setupInterceptors = async () => {
+  api.interceptors.response.use(
+    (res) => res,
+    async (error) => {
+      const originalRequest = error.config;
 
-//   return true;
-// };
+      // Handle only 401 errors
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        // If we’re already refreshing, queue this request
+        if (isRefreshingToken) {
+          return new Promise((resolve) => {
+            addSubscriber((newToken) => {
+              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+              resolve(api(originalRequest)); // retry original request
+            });
+          });
+        }
+
+        // Start refresh process
+        isRefreshingToken = true;
+        originalRequest._retry = true;
+
+        console.log("⛔️ Interceptor triggered for:", error.config.url);
+        console.log("Status:", error.response?.status);
+
+        try {
+          const tokens = await getToken();
+          if (!tokens?.refreshToken) {
+            isRefreshingToken = false;
+            return Promise.reject(error);
+          }
+
+          const res = await refreshApi.post(
+            "/auth/refresh-token",
+            {},
+            {
+              headers: { Authorization: `Bearer ${tokens.refreshToken}` },
+            }
+          );
+
+          const newAccessToken = res.data.accessToken || res.data;
+          console.log("New access token received:", newAccessToken);
+
+          await saveToken({
+            ...tokens,
+            accessToken: newAccessToken,
+          });
+
+          console.log(`Tokens updated with new access token`);
+
+          // Update headers globally
+          api.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${newAccessToken}`;
+
+          // Notify all waiting requests
+          notifySubscribers(newAccessToken);
+
+          // Retry the original failed request
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return api(originalRequest);
+        } catch (err) {
+          console.error("Failed to refresh access token:", err);
+          await removeToken();
+          return Promise.reject(err);
+        } finally {
+          isRefreshingToken = false;
+        }
+      }
+
+      // For non-401 errors
+      return Promise.reject(error);
+    }
+  );
+};
