@@ -90,6 +90,16 @@ export const loginWithGoogle = async (idToken: string) => {
 
 // ========== INTERCEPTORS ==========
 export const setupInterceptors = async () => {
+  api.interceptors.request.use(
+    async (config) => {
+      const tokens = await getToken();
+      if (tokens?.accessToken) {
+        config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
   api.interceptors.response.use(
     (res) => res,
     async (error) => {
