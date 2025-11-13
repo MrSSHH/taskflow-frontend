@@ -22,10 +22,9 @@ export async function isUserLoggedIn(): Promise<boolean> {
 }
 
 function isValidJwtToken(tokens: tokenStruct): boolean {
-  const { accessToken, refreshToken } = tokens;
+  const refreshToken = tokens.refreshToken;
 
   try {
-    const accessDecoded = jwtDecode<Token>(accessToken); // TODO: need to be removed
     const refreshDecoded = jwtDecode<Token>(refreshToken);
 
     const now = Date.now();

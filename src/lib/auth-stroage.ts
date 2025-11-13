@@ -39,12 +39,14 @@ export async function getToken(): Promise<tokenStruct | null> {
       accessToken: access.value,
       refreshToken: refresh.value,
     };
-  } catch (error: any) {
-    if (error.message?.includes("Item with given key does not exist")) {
-      console.warn("No tokens found in secure storage yet.");
-      return null;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.message?.includes("Item with given key does not exist")) {
+        console.warn("No tokens found in secure storage yet.");
+      }
+    } else {
+      console.error("Error retrieving tokens:", error);
     }
-    console.error("Error retrieving tokens:", error);
     return null;
   }
 }

@@ -1,7 +1,6 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Task } from "../types/task";
 import { getToken, removeToken, saveToken } from "../lib/auth-stroage";
-import { remove } from "ionicons/icons";
 
 export interface AuthGoogleResponse {
   accessToken: string;
@@ -49,15 +48,15 @@ const refreshApi = axios.create({
 });
 
 // ========== API METHODS ==========
-export function deleteTask(taskIdOrIds: number): Promise<any>;
-export function deleteTask(taskIdOrIds: number[]): Promise<any[]>;
+export function deleteTask(taskIdOrIds: number): Promise<AxiosResponse>;
+export function deleteTask(taskIdOrIds: number[]): Promise<AxiosResponse[]>;
 export function deleteTask(taskIdOrIds: number | number[]) {
   if (Array.isArray(taskIdOrIds)) {
     return Promise.all(
       taskIdOrIds.map((taskId) => api.delete(`/tasks/${taskId}`))
     );
   }
-  return api.delete(`/tasks/${taskIdOrIds}`);
+  return api.delete<void>(`/tasks/${taskIdOrIds}`);
 }
 
 export const getTasks = async (fetchAmtTasks?: number) => {
