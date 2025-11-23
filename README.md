@@ -29,7 +29,10 @@
 ### ✨ Experience TaskFlow in Action
 
 <!-- Replace with your actual GIF path -->
-<img src="./docs/app-demo.mp4" alt="TaskFlow App Demo" width="300"/>
+<video width="300" autoplay loop muted playsinline>
+  <source src="./docs/app-demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 *Seamless task management with a beautiful, modern interface*
 
