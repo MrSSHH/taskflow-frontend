@@ -29,7 +29,7 @@ sa
 
 ### ✨ Experience TaskFlow in Action
 
-<img src="./docs/app-demo.gif" alt="App Preview">
+<img src="./docs/app-demo.gif" alt="TaskFlow App Demo" width="300"/>
 
 _Seamless task management with a beautiful, modern interface_
 
