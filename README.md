@@ -29,7 +29,7 @@
 ### ✨ Experience TaskFlow in Action
 
 <!-- Replace with your actual GIF path -->
-<img src="./docs/app-demo.gif" alt="TaskFlow App Demo" width="300"/>
+<img src="./docs/app-demo.mp4" alt="TaskFlow App Demo" width="300"/>
 
 *Seamless task management with a beautiful, modern interface*
 
