@@ -147,54 +147,6 @@ const Login: React.FC = () => {
                   <IonCard className="login-card">
                     <IonCardContent className="card-content">
                       <form onSubmit={doLogin} className="login-form">
-                        {/* Email input */}
-                        <div className="input-group">
-                          <IonInput
-                            fill="outline"
-                            labelPlacement="floating"
-                            label="Email"
-                            type="email"
-                            placeholder="Enter your email"
-                            className="modern-input"
-                          />
-                        </div>
-
-                        {/* Password input */}
-                        <div className="input-group">
-                          <IonInput
-                            fill="outline"
-                            labelPlacement="floating"
-                            label="Password"
-                            type="password"
-                            placeholder="Enter your password"
-                            className="modern-input"
-                          />
-                        </div>
-
-                        {/* Login button */}
-                        <IonButton
-                          className="login-button"
-                          type="submit"
-                          expand="block"
-                          size="large"
-                        >
-                          Sign In
-                          <IonIcon icon={logInOutline} slot="end" />
-                        </IonButton>
-
-                        {/* Navigate to register */}
-                        <IonButton
-                          routerLink="/register"
-                          className="register-button"
-                          type="button"
-                          expand="block"
-                          fill="outline"
-                          size="large"
-                        >
-                          Create Account
-                          <IonIcon icon={personCircleOutline} slot="end" />
-                        </IonButton>
-
                         {/* Google login button */}
                         <GoogleAuthBtn />
 

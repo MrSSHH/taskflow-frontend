@@ -11,7 +11,7 @@ import React from "react";
 import { Redirect, Route } from "react-router";
 import Dashboard from "./Dashboard";
 import Tasks from "./Tasks";
-
+import "../theme/TabsLayout.css";
 const TabsLayout: React.FC = () => {
   return (
     <IonTabs>

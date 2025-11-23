@@ -28,6 +28,7 @@ import TaskEditModal from "../components/tasks/TaskEditModal";
 import TaskDeleteConfirmation from "../components/tasks/TaskDeleteConfirmation";
 import TaskAddNew from "../components/tasks/TaskAddNew";
 import TasksNotFound from "../components/errors/TasksNotFound";
+import "../theme/Tasks.css";
 
 const TIMEOUT_ANIMATION = 400; // 400 ms
 

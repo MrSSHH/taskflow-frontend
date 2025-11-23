@@ -1,12 +1,36 @@
-/* Login.css - Arctic Blue Theme */
+/* Login.css - Enhanced Arctic Blue Theme */
 
-/* Background and overall layout */
+/* ==================== CSS Variables ==================== */
+:root {
+  --arctic-blue-primary: #74b9ff;
+  --arctic-blue-secondary: #6c5ce7;
+  --arctic-blue-dark: #0984e3;
+  --arctic-blue-light: #a29bfe;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --text-muted: #a0aec0;
+  --surface: rgba(255, 255, 255, 0.98);
+  --surface-hover: rgba(255, 255, 255, 1);
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.2);
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==================== Background & Layout ==================== */
 .login-content {
-  --background: linear-gradient(135deg, 
-#74b9ff 0%, 
-#0984e3 50%, 
-#6c5ce7 100%);
+  --background: linear-gradient(
+    135deg,
+    #74b9ff 0%,
+    #0984e3 35%,
+    #6c5ce7 75%,
+    #a29bfe 100%
+  );
   position: relative;
+  overflow: hidden;
 }
 
 .login-background {
@@ -15,165 +39,542 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(116, 185, 255, 0.15) 0%, rgba(108, 92, 231, 0.15) 100%);
-  backdrop-filter: blur(10px);
+  background: radial-gradient(
+      circle at 20% 80%,
+      rgba(116, 185, 255, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(108, 92, 231, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      rgba(162, 155, 254, 0.2) 0%,
+      transparent 50%
+    );
+  backdrop-filter: blur(60px);
   z-index: 0;
+  animation: backgroundShift 20s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundShift {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.1) rotate(5deg);
+  }
+}
+
+/* Floating particles effect */
+.login-background::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px, 80px 80px;
+  background-position: 0 0, 40px 40px;
+  animation: particleFloat 30s linear infinite;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
 }
 
 .min-height {
   min-height: 100vh;
+  padding: 2rem 0;
 }
 
-/* Toolbar styling */
+/* ==================== Toolbar ==================== */
 .modern-toolbar {
-  --background: rgba(255, 255, 255, 0.95);
-  --color: #333;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  --background: rgba(255, 255, 255, 0.85);
+  --color: var(--text-primary);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-smooth);
 }
 
-/* Logo section */
+.modern-toolbar ion-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.5px;
+  background: linear-gradient(
+    135deg,
+    var(--arctic-blue-primary),
+    var(--arctic-blue-secondary)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==================== Logo Section ==================== */
 .logo-section {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   z-index: 1;
   position: relative;
 }
 
 .logo-container {
   margin-bottom: 1.5rem;
-  animation: fadeInUp 0.8s ease-out;
-}
-
-.login-logo {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-}
-
-.login-logo:hover {
-  transform: scale(1.05);
-}
-
-.welcome-text {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 0.5rem 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.subtitle-text {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin: 0;
-  animation: fadeInUp 0.8s ease-out 0.4s both;
-}
-
-/* Card styling */
-.login-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  margin: 0;
-  animation: fadeInUp 0.8s ease-out 0.6s both;
-  z-index: 1;
+  animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
   position: relative;
 }
 
-.card-content {
-  padding: 2rem;
+.logo-container::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(
+    circle,
+    rgba(116, 185, 255, 0.4) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: pulse 3s ease-in-out infinite;
+  z-index: -1;
 }
 
-/* Form styling */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.login-logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(255, 255, 255, 0.3),
+    0 0 0 8px rgba(255, 255, 255, 0.1);
+  transition: var(--transition-spring);
+  filter: brightness(1.05);
+}
+
+.login-logo:hover {
+  transform: scale(1.08) rotate(5deg);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.4),
+    0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.welcome-text {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 0.75rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.15),
+    0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.subtitle-text {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ==================== Card Styling ==================== */
+.login-card {
+  background: var(--surface);
+  backdrop-filter: blur(30px) saturate(180%);
+  border-radius: 24px;
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  border: none;
+  margin: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+  z-index: 1;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--arctic-blue-primary),
+    var(--arctic-blue-secondary),
+    var(--arctic-blue-light)
+  );
+  background-size: 200% 100%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.login-card:hover {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+  transform: translateY(-2px);
+}
+
+.card-content {
+  padding: 2.5rem;
+}
+
+/* ==================== Form Styling ==================== */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.5rem;
 }
 
 .input-group {
   margin-bottom: 1.5rem;
+  animation: slideInLeft 0.6s ease-out;
 }
 
 .modern-input {
-  --border-radius: 12px;
-  --border-color: 
-#e1e5e9;
-  --border-color-focused: 
-#74b9ff;
-  --highlight-color: 
-#74b9ff;
-  transition: all 0.3s ease;
+  --border-radius: 14px;
+  --border-color: var(--border-color);
+  --border-color-focused: var(--arctic-blue-primary);
+  --highlight-color: var(--arctic-blue-primary);
+  --background: rgba(247, 250, 252, 0.8);
+  --padding-start: 18px;
+  --padding-end: 18px;
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
 }
 
 .modern-input:hover {
-  --border-color: 
-#74b9ff;
+  --border-color: var(--arctic-blue-primary);
+  --background: rgba(255, 255, 255, 1);
 }
 
-/* Button styling */
-.login-button {
-  --background: linear-gradient(135deg, 
-#74b9ff 0%, 
-#6c5ce7 100%);
-  --background-hover: linear-gradient(135deg, 
-#5faef7 0%, 
-#5f4bdb 100%);
-  --border-radius: 12px;
-  --box-shadow: 0 4px 15px rgba(116, 185, 255, 0.4);
+.modern-input:focus-within {
+  box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.15);
+}
+
+/* ==================== Google Button Styles ==================== */
+.google-signin-btn {
+  --background: #ffffff;
+  --background-hover: #f8f9fa;
+  --background-activated: #f1f3f4;
+  --color: #3c4043;
+  --border-radius: 16px;
+  --border-width: 0px;
+  --box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --padding-top: 0;
+  --padding-bottom: 0;
   font-weight: 600;
-  margin: 0.5rem 0;
+  font-size: 16px;
+  height: 56px;
+  margin: 12px 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.25px;
+  position: relative;
+  overflow: hidden;
+  font-family: "Google Sans", "Roboto", -apple-system, BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* Ripple effect background */
+.google-signin-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(66, 133, 244, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.google-signin-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.google-signin-btn:hover {
+  --box-shadow: 0 1px 3px 0 rgba(60, 64, 67, 0.3),
+    0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  transform: translateY(-2px);
+  --background: #f8f9fa;
+}
+
+.google-signin-btn:active {
+  transform: translateY(0);
+  --box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15);
+}
+
+/* Google Icon Styling */
+.google-signin-btn ion-icon {
+  font-size: 24px;
+  margin-right: 12px;
   transition: all 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+  position: relative;
+  z-index: 1;
+}
+
+.google-signin-btn:hover ion-icon {
+  transform: scale(1.05) rotate(5deg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+/* Loading State */
+.google-signin-btn.loading {
+  --color: rgba(60, 64, 67, 0.6);
+  pointer-events: none;
+  --background: #f8f9fa;
+}
+
+.google-signin-btn.loading::before {
+  display: none;
+}
+
+/* Spinner styling */
+.google-signin-btn ion-spinner {
+  --color: #4285f4;
+  font-size: 24px;
+  margin-right: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Button text */
+.google-signin-btn .button-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Arctic Blue Filled Google Button */
+.google-signin-btn-filled {
+  --background: linear-gradient(
+    135deg,
+    var(--arctic-blue-primary) 0%,
+    var(--arctic-blue-secondary) 100%
+  );
+  --background-hover: linear-gradient(135deg, #5faef7 0%, #5f4bdb 100%);
+  --background-activated: linear-gradient(135deg, #4a9ef5 0%, #4f3fd9 100%);
+  --color: #ffffff;
+  --border-radius: 14px;
+  --border-width: 0px;
+  --box-shadow: 0 4px 16px rgba(116, 185, 255, 0.4);
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  font-weight: 700;
+  font-size: 16px;
+  height: 52px;
+  margin: 10px 0;
+  transition: var(--transition-smooth);
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.google-signin-btn-filled::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.google-signin-btn-filled:hover::before {
+  left: 100%;
+}
+
+.google-signin-btn-filled:hover {
+  --box-shadow: 0 8px 28px rgba(116, 185, 255, 0.5);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.google-signin-btn-filled:active {
+  transform: translateY(-1px) scale(1);
+}
+
+.google-signin-btn-filled ion-icon {
+  margin-right: 12px;
+  font-size: 22px;
+  color: #ffffff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Outline Google Button */
+.google-signin-btn-outline {
+  --background: transparent;
+  --background-hover: rgba(116, 185, 255, 0.08);
+  --background-activated: rgba(116, 185, 255, 0.15);
+  --color: var(--arctic-blue-primary);
+  --border-radius: 14px;
+  --border-width: 2.5px;
+  --border-style: solid;
+  --border-color: var(--arctic-blue-primary);
+  --box-shadow: none;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  font-weight: 700;
+  font-size: 16px;
+  height: 52px;
+  margin: 10px 0;
+  transition: var(--transition-smooth);
+  letter-spacing: 0.5px;
+}
+
+.google-signin-btn-outline:hover {
+  --background: rgba(116, 185, 255, 0.12);
+  --box-shadow: 0 4px 16px rgba(116, 185, 255, 0.25);
+  --border-width: 2.5px;
+  transform: translateY(-3px);
+}
+
+.google-signin-btn-outline ion-icon {
+  margin-right: 12px;
+  font-size: 22px;
+  color: var(--arctic-blue-primary);
+}
+
+/* ==================== Additional Buttons ==================== */
+.login-button {
+  --background: linear-gradient(
+    135deg,
+    var(--arctic-blue-primary) 0%,
+    var(--arctic-blue-secondary) 100%
+  );
+  --background-hover: linear-gradient(135deg, #5faef7 0%, #5f4bdb 100%);
+  --border-radius: 14px;
+  --box-shadow: 0 4px 16px rgba(116, 185, 255, 0.4);
+  font-weight: 700;
+  margin: 0.75rem 0;
+  height: 52px;
+  transition: var(--transition-smooth);
   text-transform: none;
+  letter-spacing: 0.5px;
 }
 
 .login-button:hover {
-  transform: translateY(-2px);
-  --box-shadow: 0 6px 20px rgba(116, 185, 255, 0.5);
+  transform: translateY(-3px) scale(1.02);
+  --box-shadow: 0 8px 28px rgba(116, 185, 255, 0.5);
 }
 
 .register-button {
-  --border-radius: 12px;
-  --border-color: 
-#e1e5e9;
-  --color: 
-#74b9ff;
+  --border-radius: 14px;
+  --border-color: var(--border-color);
+  --color: var(--arctic-blue-primary);
+  --background-hover: rgba(116, 185, 255, 0.05);
   font-weight: 600;
   margin-bottom: 1rem;
-  transition: all 0.3s ease;
+  height: 52px;
+  transition: var(--transition-smooth);
   text-transform: none;
 }
 
 .register-button:hover {
-  --border-color: 
-#74b9ff;
-  --background: rgba(116, 185, 255, 0.05);
+  --border-color: var(--arctic-blue-primary);
+  --background: rgba(116, 185, 255, 0.08);
+  transform: translateY(-2px);
 }
 
 .intro-button {
-  --color: 
-#718096;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+  --color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
   text-transform: none;
+  font-weight: 500;
+  transition: var(--transition-smooth);
 }
 
 .intro-button:hover {
-  --color: 
-#74b9ff;
+  --color: var(--arctic-blue-primary);
+  transform: translateX(3px);
 }
 
-/* Animations */
+.intro-button ion-icon {
+  transition: transform 0.3s ease;
+}
+
+.intro-button:hover ion-icon {
+  transform: rotate(180deg);
+}
+
+/* ==================== Loading States ==================== */
+.google-signin-btn-filled.loading,
+.google-signin-btn-outline.loading {
+  --color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.google-signin-btn-filled.loading ion-icon,
+.google-signin-btn-outline.loading ion-icon {
+  display: none;
+}
+
+/* ==================== Animations ==================== */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
@@ -181,194 +582,17 @@
   }
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .card-content {
-    padding: 1.5rem;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
   }
-
-  .welcome-text {
-    font-size: 1.75rem;
-  }
-
-  .login-logo {
-    width: 60px;
-    height: 60px;
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .login-card {
-    background: rgba(30, 30, 30, 0.95);
-  }
-
-  .modern-toolbar {
-    --background: rgba(30, 30, 30, 0.95);
-    --color: #fff;
-  }
-}
-
-/* Standard Google Sign-in Button */
-.google-signin-btn {
-  --background: var(--google-background);
-  --background-hover: var(--google-hover);
-  --background-activated: #f1f3f4;
-  --color: var(--google-text);
-  --border-radius: 12px;
-  --border-width: 2px;
-  --border-style: solid;
-  --border-color: var(--google-border);
-  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  font-weight: 500;
-  font-size: 16px;
-  height: 48px;
-  margin: 8px 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.google-signin-btn:hover {
-  --border-color: var(--arctic-blue-primary);
-  --box-shadow: 0 4px 12px rgba(116, 185, 255, 0.2);
-  transform: translateY(-2px);
-}
-
-.google-signin-btn ion-icon {
-  margin-right: 12px;
-  font-size: 20px;
-}
-
-/* Arctic Blue Filled Google Button */
-.google-signin-btn-filled {
-  --background: linear-gradient(135deg, var(--arctic-blue-primary) 0%, var(--arctic-blue-secondary) 100%);
-  --background-hover: linear-gradient(135deg, #5faef7 0%, #5f4bdb 100%);
-  --background-activated: linear-gradient(135deg, #4a9ef5 0%, #4f3fd9 100%);
-  --color: #ffffff;
-  --border-radius: 12px;
-  --border-width: 0px;
-  --box-shadow: 0 4px 15px rgba(116, 185, 255, 0.4);
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  height: 48px;
-  margin: 8px 0;
-  transition: all 0.3s ease;
-}
-
-.google-signin-btn-filled:hover {
-  --box-shadow: 0 6px 20px rgba(116, 185, 255, 0.5);
-  transform: translateY(-2px);
-}
-
-.google-signin-btn-filled ion-icon {
-  margin-right: 12px;
-  font-size: 20px;
-  color: #ffffff;
-}
-
-/* Outline Google Button with Arctic Theme */
-.google-signin-btn-outline {
-  --background: transparent;
-  --background-hover: rgba(116, 185, 255, 0.05);
-  --background-activated: rgba(116, 185, 255, 0.1);
-  --color: var(--arctic-blue-primary);
-  --border-radius: 12px;
-  --border-width: 2px;
-  --border-style: solid;
-  --border-color: var(--arctic-blue-primary);
-  --box-shadow: none;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 12px;
-  --padding-bottom: 12px;
-  font-weight: 600;
-  font-size: 16px;
-  height: 48px;
-  margin: 8px 0;
-  transition: all 0.3s ease;
-}
-
-.google-signin-btn-outline:hover {
-  --background: rgba(116, 185, 255, 0.08);
-  --box-shadow: 0 2px 8px rgba(116, 185, 255, 0.2);
-}
-
-.google-signin-btn-outline ion-icon {
-  margin-right: 12px;
-  font-size: 20px;
-  color: var(--arctic-blue-primary);
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  .google-signin-btn {
-    --background: #2d3748;
-    --background-hover: #1a202c;
-    --color: #ffffff;
-    --border-color: #4a5568;
-  }
-  
-  .google-signin-btn:hover {
-    --border-color: var(--arctic-blue-light);
-  }
-}
-/* Loading State */
-.google-signin-btn.loading,
-.google-signin-btn-filled.loading,
-.google-signin-btn-outline.loading {
-  --color: rgba(0, 0, 0, 0.7);
-  pointer-events: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  /* Loading State dark mode*/
-  .google-signin-btn.loading,
-  .google-signin-btn-filled.loading,
-  .google-signin-btn-outline.loading {
-  --color: rgba(255, 255, 255, 0.7);
-    pointer-events: none;
-  }
-}
-
-
-.google-signin-btn.loading ion-icon,
-.google-signin-btn-filled.loading ion-icon,
-.google-signin-btn-outline.loading ion-icon {
-  display: none;
-}
-
-/* Custom Google Icon Styles */
-.google-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-}
-
-.google-icon svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .google-signin-btn,
-  .google-signin-btn-filled,
-  .google-signin-btn-outline {
-    font-size: 14px;
-    height: 44px;
-    --padding-start: 12px;
-    --padding-end: 12px;
-  }
-}
-
-/* Animation Classes */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -381,53 +605,176 @@
 }
 
 .slide-in-up {
-  animation: slideInUp 0.6s ease-out;
+  animation: slideInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Focus States for Accessibility */
+/* ==================== Accessibility ==================== */
 .google-signin-btn:focus-visible,
 .google-signin-btn-filled:focus-visible,
-.google-signin-btn-outline:focus-visible {
-  --box-shadow: 0 0 0 3px rgba(116, 185, 255, 0.3);
-  outline: none;
+.google-signin-btn-outline:focus-visible,
+.login-button:focus-visible,
+.register-button:focus-visible {
+  outline: 2px solid #4285f4;
+  outline-offset: 2px;
 }
 
-/* Button Content Alignment */
-.google-signin-btn .button-inner,
-.google-signin-btn-filled .button-inner,
-.google-signin-btn-outline .button-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.google-signin-btn:focus-visible {
+  outline: 2px solid #4285f4;
+  outline-offset: 2px;
 }
 
-/* Ripple Effect Override */
-.google-signin-btn ion-ripple-effect,
-.google-signin-btn-filled ion-ripple-effect,
-.google-signin-btn-outline ion-ripple-effect {
-  color: var(--arctic-blue-primary);
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+  .card-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .welcome-text {
+    font-size: 1.875rem;
+  }
+
+  .subtitle-text {
+    font-size: 1rem;
+  }
+
+  .login-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo-container::before {
+    width: 100px;
+    height: 100px;
+  }
+
+  .google-signin-btn {
+    font-size: 15px;
+    height: 52px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+
+  .google-signin-btn ion-icon,
+  .google-signin-btn ion-spinner {
+    font-size: 22px;
+  }
+
+  .google-signin-btn-filled,
+  .google-signin-btn-outline,
+  .login-button,
+  .register-button {
+    font-size: 15px;
+    height: 48px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+
+  .min-height {
+    padding: 1rem 0;
+  }
 }
 
-/* Size Variants */
+@media (max-width: 480px) {
+  .card-content {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .welcome-text {
+    font-size: 1.625rem;
+  }
+
+  .login-logo {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* ==================== Dark Mode ==================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: rgba(26, 32, 44, 0.98);
+    --surface-hover: rgba(26, 32, 44, 1);
+    --text-primary: #f7fafc;
+    --text-secondary: #cbd5e0;
+    --text-muted: #718096;
+    --border-color: #4a5568;
+  }
+
+  .login-card {
+    background: rgba(26, 32, 44, 0.95);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+
+  .modern-toolbar {
+    --background: rgba(26, 32, 44, 0.95);
+    --color: #f7fafc;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .modern-input {
+    --background: rgba(45, 55, 72, 0.6);
+    --color: #f7fafc;
+  }
+
+  /* Google Button Dark Mode */
+  .google-signin-btn {
+    --background: rgba(45, 55, 72, 0.9);
+    --background-hover: rgba(55, 65, 81, 1);
+    --color: #f7fafc;
+    --box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4),
+      0 2px 6px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .google-signin-btn:hover {
+    --box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5),
+      0 4px 10px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .google-signin-btn.loading {
+    --color: rgba(247, 250, 252, 0.6);
+    --background: rgba(45, 55, 72, 0.9);
+  }
+
+  .google-signin-btn-filled.loading,
+  .google-signin-btn-outline.loading {
+    --color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* ==================== Custom Icons ==================== */
+.google-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 12px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.google-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==================== Size Variants ==================== */
 .google-signin-btn.button-small,
 .google-signin-btn-filled.button-small,
 .google-signin-btn-outline.button-small {
-  height: 36px;
+  height: 40px;
   font-size: 14px;
-  --padding-start: 12px;
-  --padding-end: 12px;
+  --padding-start: 14px;
+  --padding-end: 14px;
 }
 
 .google-signin-btn.button-large,
 .google-signin-btn-filled.button-large,
 .google-signin-btn-outline.button-large {
-  height: 56px;
+  height: 60px;
   font-size: 18px;
-  --padding-start: 24px;
-  --padding-end: 24px;
+  --padding-start: 28px;
+  --padding-end: 28px;
 }
 
-/* Full Width Buttons */
+/* ==================== Full Width ==================== */
 .google-signin-btn.button-full,
 .google-signin-btn-filled.button-full,
 .google-signin-btn-outline.button-full {

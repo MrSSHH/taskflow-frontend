@@ -1,0 +1,425 @@
+/* Tasks.css - Modern Arctic Blue Theme */
+
+/* ==================== CSS Variables ==================== */
+:root {
+  --arctic-blue-primary: #74b9ff;
+  --arctic-blue-secondary: #6c5ce7;
+  --arctic-blue-dark: #0984e3;
+  --arctic-blue-light: #a29bfe;
+  --success-color: #00b894;
+  --danger-color: #ff7675;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --surface: #ffffff;
+  --surface-secondary: #f7fafc;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================== Page Background ==================== */
+.content-darkmode {
+  --background: linear-gradient(180deg, #f7fafc 0%, #edf2f7 100%);
+  position: relative;
+}
+
+.content-darkmode::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 20% 20%,
+      rgba(116, 185, 255, 0.05) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(108, 92, 231, 0.05) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==================== Header Styling ==================== */
+ion-header ion-toolbar {
+  --background: rgba(255, 255, 255, 0.95);
+  --color: var(--text-primary);
+  --border-color: rgba(226, 232, 240, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  transition: var(--transition-smooth);
+}
+
+ion-header ion-toolbar ion-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+  background: linear-gradient(
+    135deg,
+    var(--arctic-blue-primary),
+    var(--arctic-blue-secondary)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==================== Menu Button ==================== */
+ion-menu-button {
+  --color: var(--arctic-blue-primary);
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  transition: var(--transition-smooth);
+}
+
+ion-menu-button:hover {
+  --color: var(--arctic-blue-dark);
+  transform: scale(1.05);
+}
+
+/* ==================== Search Bar ==================== */
+ion-searchbar {
+  --background: rgba(247, 250, 252, 0.8);
+  --border-radius: 16px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --color: var(--text-primary);
+  --placeholder-color: var(--text-secondary);
+  --icon-color: var(--arctic-blue-primary);
+  --clear-button-color: var(--text-secondary);
+  padding: 8px 16px;
+  transition: var(--transition-smooth);
+}
+
+ion-searchbar:hover {
+  --background: rgba(255, 255, 255, 0.95);
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+ion-searchbar.searchbar-has-focus {
+  --background: rgba(255, 255, 255, 1);
+  --box-shadow: 0 4px 16px rgba(116, 185, 255, 0.2);
+}
+
+/* ==================== Action Buttons in Header ==================== */
+ion-header ion-button {
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 10px;
+  --padding-bottom: 10px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  transition: var(--transition-smooth);
+  margin: 0 4px;
+}
+
+/* Delete Button */
+ion-header ion-button[color="danger"] {
+  --background: linear-gradient(135deg, #ff7675 0%, #d63031 100%);
+  --background-hover: linear-gradient(135deg, #ff6b6b 0%, #c0392b 100%);
+  --box-shadow: 0 4px 12px rgba(255, 118, 117, 0.3);
+}
+
+ion-header ion-button[color="danger"]:hover {
+  --box-shadow: 0 6px 16px rgba(255, 118, 117, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Cancel Button */
+ion-header ion-button[color="light"] {
+  --background: rgba(226, 232, 240, 0.8);
+  --color: var(--text-primary);
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+ion-header ion-button[color="light"]:hover {
+  --background: rgba(203, 213, 224, 0.9);
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ==================== Progress Bar ==================== */
+ion-progress-bar {
+  --background: rgba(226, 232, 240, 0.5);
+  --progress-background: linear-gradient(
+    90deg,
+    var(--arctic-blue-primary),
+    var(--arctic-blue-secondary)
+  );
+  height: 3px;
+  position: relative;
+  overflow: hidden;
+}
+
+ion-progress-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ==================== Refresher ==================== */
+ion-refresher {
+  z-index: 10;
+}
+
+ion-refresher-content {
+  --color: var(--arctic-blue-primary);
+}
+
+/* ==================== Content Area ==================== */
+ion-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 100px;
+}
+
+/* ==================== FAB Button ==================== */
+ion-fab {
+  margin-bottom: 16px;
+  margin-right: 16px;
+}
+
+ion-fab ion-button {
+  --background: linear-gradient(135deg, var(--success-color) 0%, #00a885 100%);
+  --background-hover: linear-gradient(135deg, #00d4a1 0%, #00b894 100%);
+  --box-shadow: 0 8px 24px rgba(0, 184, 148, 0.4);
+  --border-radius: 16px;
+  --padding-start: 18px;
+  --padding-end: 18px;
+  --padding-top: 18px;
+  --padding-bottom: 18px;
+  width: 64px;
+  height: 64px;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+ion-fab ion-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+ion-fab ion-button:hover::before {
+  width: 200px;
+  height: 200px;
+}
+
+ion-fab ion-button:hover {
+  --box-shadow: 0 12px 32px rgba(0, 184, 148, 0.5);
+  transform: translateY(-4px) scale(1.05);
+}
+
+ion-fab ion-button:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+ion-fab ion-button[disabled] {
+  --background: rgba(203, 213, 224, 0.6);
+  --box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+ion-fab ion-button ion-icon {
+  font-size: 28px;
+  transition: transform 0.3s ease;
+}
+
+ion-fab ion-button:hover ion-icon {
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* ==================== Task Cards Spacing ==================== */
+ion-card {
+  margin: 12px 0;
+  animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== Empty State ==================== */
+ion-text {
+  color: var(--text-secondary);
+}
+
+/* ==================== Skeleton Loading ==================== */
+ion-skeleton-text {
+  --background: linear-gradient(
+    90deg,
+    rgba(226, 232, 240, 0.4) 0%,
+    rgba(226, 232, 240, 0.8) 50%,
+    rgba(226, 232, 240, 0.4) 100%
+  );
+  --background-rgb: 226, 232, 240;
+  border-radius: 12px;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ==================== Dark Mode ==================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #f7fafc;
+    --text-secondary: #cbd5e0;
+    --surface: #1a202c;
+    --surface-secondary: #2d3748;
+    --border-color: #4a5568;
+  }
+
+  .content-darkmode {
+    --background: linear-gradient(180deg, #1a202c 0%, #2d3748 100%);
+  }
+
+  .content-darkmode::before {
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(116, 185, 255, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(108, 92, 231, 0.08) 0%,
+        transparent 50%
+      );
+  }
+
+  ion-header ion-toolbar {
+    --background: rgba(26, 32, 44, 0.95);
+    --color: var(--text-primary);
+    --border-color: rgba(74, 85, 104, 0.5);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  ion-searchbar {
+    --background: rgba(45, 55, 72, 0.8);
+    --color: var(--text-primary);
+    --placeholder-color: var(--text-secondary);
+  }
+
+  ion-searchbar:hover {
+    --background: rgba(45, 55, 72, 0.95);
+  }
+
+  ion-progress-bar {
+    --background: rgba(74, 85, 104, 0.5);
+  }
+
+  ion-skeleton-text {
+    --background: linear-gradient(
+      90deg,
+      rgba(45, 55, 72, 0.4) 0%,
+      rgba(45, 55, 72, 0.8) 50%,
+      rgba(45, 55, 72, 0.4) 100%
+    );
+  }
+
+  ion-header ion-button[color="light"] {
+    --background: rgba(74, 85, 104, 0.6);
+    --color: var(--text-primary);
+  }
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+  ion-content {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+
+  ion-header ion-toolbar ion-title {
+    font-size: 1.25rem;
+  }
+
+  ion-fab {
+    margin-bottom: 12px;
+    margin-right: 12px;
+  }
+
+  ion-fab ion-button {
+    width: 56px;
+    height: 56px;
+  }
+
+  ion-fab ion-button ion-icon {
+    font-size: 24px;
+  }
+
+  ion-header ion-button {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    font-size: 14px;
+  }
+}
+
+/* ==================== Smooth Transitions ==================== */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==================== Focus States for Accessibility ==================== */
+ion-button:focus-visible {
+  outline: 2px solid var(--arctic-blue-primary);
+  outline-offset: 2px;
+}
+
+ion-searchbar:focus-within {
+  outline: 2px solid var(--arctic-blue-primary);
+  outline-offset: 2px;
+  border-radius: 16px;
+}
