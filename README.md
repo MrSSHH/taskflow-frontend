@@ -20,6 +20,52 @@
 
 </div>
 
+---
+
+## 🎬 App Preview
+
+<div align="center">
+
+### ✨ Experience TaskFlow in Action
+
+<!-- Replace with your actual GIF path -->
+<img src="./docs/app-demo.mp4" alt="TaskFlow App Demo" width="300"/>
+
+*Seamless task management with a beautiful, modern interface*
+
+### 📸 Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="./docs/screenshots/login.png" alt="Login Screen" width="250"/>
+      <br />
+      <sub><b>Secure Login</b></sub>
+    </td>
+    <td align="center">
+      <img src="./docs/screenshots/tasks.png" alt="Tasks View" width="250"/>
+      <br />
+      <sub><b>Task Management</b></sub>
+    </td>
+    <td align="center">
+      <img src="./docs/screenshots/dashboard.png" alt="Dashboard" width="250"/>
+      <br />
+      <sub><b>Dashboard</b></sub>
+    </td>
+  </tr>
+</table>
+
+**🎨 Key Features Showcase:**
+- 🔐 **Google OAuth Integration** - Quick and secure authentication
+- 📋 **Intuitive Task Lists** - Swipe, tap, and organize with ease
+- 🎯 **Modern Arctic Blue Theme** - Beautiful gradient designs with dark mode
+- ⚡ **Smooth Animations** - Delightful micro-interactions throughout
+- 📱 **Native Feel** - Optimized for iOS and Android
+
+</div>
+
+---
+
 ## 📱 What is TaskFlow?
 
 TaskFlow is a **mobile-first task management application** designed to help you organize, track, and complete your tasks efficiently. Built with modern web technologies and compiled to native mobile apps, TaskFlow offers a seamless experience across iOS and Android devices.
@@ -222,6 +268,9 @@ taskflow-frontend/
 │   └── 📄 App.tsx         # Root application component
 ├── 📁 ios/                # iOS-specific files (Capacitor)
 ├── 📁 android/            # Android-specific files (Capacitor)
+├── 📁 docs/               # Documentation and screenshots
+│   ├── 📄 app-demo.gif    # App demo GIF
+│   └── 📁 screenshots/    # App screenshots
 ├── 📄 capacitor.config.ts # Capacitor configuration
 └── 📄 package.json       # Project dependencies and scripts
 ```
@@ -270,6 +319,20 @@ We welcome contributions to TaskFlow! This project is in early development and t
 - Test changes on both iOS and Android (if possible)
 - Write meaningful commit messages
 - Update documentation for new features
+
+## 📸 Adding Screenshots
+
+To add your own screenshots to the preview section:
+
+1. Create a `docs/screenshots/` directory in the project root
+2. Add your screenshots with descriptive names:
+   - `login.png` - Login screen
+   - `tasks.png` - Tasks view
+   - `dashboard.png` - Dashboard view
+3. Add your app demo GIF as `docs/app-demo.gif`
+4. Recommended image sizes:
+   - Screenshots: 1080x1920 (portrait) or similar mobile aspect ratio
+   - GIF: Max width 600px for optimal loading
 
 ## ❓ Troubleshooting
 
