@@ -6,7 +6,7 @@
 
 **A modern, mobile-first task management application**
 
-*Built with React • Ionic • Capacitor*
+_Built with React • Ionic • Capacitor_
 
 [![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
 [![Ionic](https://img.shields.io/badge/Ionic-7+-3880ff?style=flat-square&logo=ionic&logoColor=white)](https://ionicframework.com/)
@@ -15,6 +15,7 @@
 
 [![Status](https://img.shields.io/badge/Status-In%20Development-orange?style=flat-square)](https://github.com/MrSSHH/taskflow-frontend)
 [![API Required](https://img.shields.io/badge/Requires-taskflow--api-critical?style=flat-square)](https://github.com/MrSSHH/taskflow-api)
+sa
 
 > ⚠️ **IMPORTANT**: This frontend application requires the TaskFlow API backend to function. You must set up and run the [TaskFlow API](https://github.com/MrSSHH/taskflow-api) before using this app.
 
@@ -28,10 +29,9 @@
 
 ### ✨ Experience TaskFlow in Action
 
-<!-- Replace with your actual GIF path -->
-<img src="./docs/app-demo.mp4" alt="TaskFlow App Demo" width="300"/>
+<img src="./docs/app-demo.gif">
 
-*Seamless task management with a beautiful, modern interface*
+_Seamless task management with a beautiful, modern interface_
 
 ### 📸 Screenshots
 
@@ -56,6 +56,7 @@
 </table>
 
 **🎨 Key Features Showcase:**
+
 - 🔐 **Google OAuth Integration** - Quick and secure authentication
 - 📋 **Intuitive Task Lists** - Swipe, tap, and organize with ease
 - 🎯 **Modern Arctic Blue Theme** - Beautiful gradient designs with dark mode
@@ -71,6 +72,7 @@
 TaskFlow is a **mobile-first task management application** designed to help you organize, track, and complete your tasks efficiently. Built with modern web technologies and compiled to native mobile apps, TaskFlow offers a seamless experience across iOS and Android devices.
 
 ### 🎯 Key Highlights
+
 - **Mobile-First Design** - Optimized for touch interactions and mobile workflows
 - **Native Performance** - Compiled to native iOS and Android apps using Capacitor
 - **Modern Stack** - React + Ionic + TypeScript for maintainable, scalable code
@@ -80,12 +82,14 @@ TaskFlow is a **mobile-first task management application** designed to help you 
 > **Work in Progress**: This project is currently under active development.
 
 ### ✅ **What's Working**
+
 - [x] Project setup and configuration
 - [x] Mobile-optimized UI framework
 - [x] Development environment
 - [x] Basic navigation structure
 
 ### 🔄 **Currently Building**
+
 - [ ] Core task management features
 - [x] User authentication flow (Google OAuth via Capacitor – working ✅)
 - [ ] Local authentication (in progress…)
@@ -93,6 +97,7 @@ TaskFlow is a **mobile-first task management application** designed to help you 
 - [ ] Mobile-specific optimizations
 
 ### 📋 **Roadmap**
+
 - [ ] iOS App Store deployment
 - [ ] Android Play Store deployment
 - [ ] Offline synchronization
@@ -124,6 +129,7 @@ TaskFlow follows a **client-server architecture** with separate frontend and bac
 ```
 
 ### 📦 **Required Repositories**
+
 1. **Frontend** (This repo): [MrSSHH/taskflow-frontend](https://github.com/MrSSHH/taskflow-frontend)
 2. **Backend API** (Required): [MrSSHH/taskflow-api](https://github.com/MrSSHH/taskflow-api)
 
@@ -132,6 +138,7 @@ TaskFlow follows a **client-server architecture** with separate frontend and bac
 ### 🛠️ Prerequisites
 
 Before you begin, ensure you have:
+
 - **Node.js** (v18 or higher)
 - **npm** or **yarn**
 - **Git**
@@ -201,7 +208,9 @@ npx cap open android
 ## 📱 Mobile Development
 
 ### 🍎 iOS Development
+
 **Requirements:**
+
 - macOS computer
 - Xcode (latest version)
 - iOS Simulator or physical iOS device
@@ -220,7 +229,9 @@ npx cap open ios
 ```
 
 ### 🤖 Android Development
+
 **Requirements:**
+
 - Android Studio
 - Android SDK
 - Android Virtual Device (AVD) or physical Android device
@@ -240,20 +251,23 @@ npx cap open android
 ## 🛠️ Tech Stack
 
 ### Frontend Technologies
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| **React** | 18+ | UI framework and component management |
-| **Ionic** | 7+ | Mobile-optimized UI components |
-| **Capacitor** | 5+ | Native mobile app compilation |
-| **TypeScript** | 5+ | Type-safe JavaScript development |
-| **Vite** | Latest | Fast build tool and dev server |
+
+| Technology     | Version | Purpose                               |
+| -------------- | ------- | ------------------------------------- |
+| **React**      | 18+     | UI framework and component management |
+| **Ionic**      | 7+      | Mobile-optimized UI components        |
+| **Capacitor**  | 5+      | Native mobile app compilation         |
+| **TypeScript** | 5+      | Type-safe JavaScript development      |
+| **Vite**       | Latest  | Fast build tool and dev server        |
 
 ### Mobile Capabilities
+
 - 📱 **Native Device APIs** - Camera, notifications, file system
 - 🔄 **Background sync** - Data synchronization when app is closed
 - 📧 **Push notifications** - Stay updated with task reminders
 
 ## 📁 Project Structure
+
 ```
 taskflow-frontend/
 ├── 📁 public/              # Static assets
@@ -277,16 +291,16 @@ taskflow-frontend/
 
 ## 🧪 Available Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run type-check` | Run TypeScript checks |
-| `npm run test` | Run test suite |
-| `npm run ionic:serve` | Start Ionic dev server |
-| `npm run ionic:build` | Build with Ionic CLI |
+| Script                | Description              |
+| --------------------- | ------------------------ |
+| `npm run dev`         | Start development server |
+| `npm run build`       | Build for production     |
+| `npm run preview`     | Preview production build |
+| `npm run lint`        | Run ESLint               |
+| `npm run type-check`  | Run TypeScript checks    |
+| `npm run test`        | Run test suite           |
+| `npm run ionic:serve` | Start Ionic dev server   |
+| `npm run ionic:build` | Build with Ionic CLI     |
 
 ## 🤝 Contributing
 
@@ -339,16 +353,19 @@ To add your own screenshots to the preview section:
 ### Common Issues
 
 **Frontend won't start:**
+
 - Make sure the TaskFlow API is running first
 - Check that your `.env.local` file has the correct API URL
 - Verify Node.js version (v18+)
 
 **Mobile build fails:**
+
 - Ensure you have the latest Xcode (iOS) or Android Studio (Android)
 - Run `npx cap sync` after making changes
 - Check that all dependencies are installed
 
 **API connection errors:**
+
 - Verify the API server is running on the correct port
 - Check firewall settings
 - Ensure API URL in `.env.local` matches your backend setup
@@ -366,12 +383,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **MrSSHH**
+
 - GitHub: [@MrSSHH](https://github.com/MrSSHH)
 - Related Projects: [TaskFlow API](https://github.com/MrSSHH/taskflow-api)
 
 ## 🙏 Acknowledgments
 
 Special thanks to:
+
 - [Ionic Team](https://ionicframework.com/) for the amazing mobile framework
 - [Capacitor Team](https://capacitorjs.com/) for seamless native integration
 - [React Team](https://reactjs.org/) for the powerful UI framework
@@ -385,6 +404,6 @@ Special thanks to:
 
 **⭐ Star this repo if you find it useful!**
 
-*Built with ❤️ for mobile productivity*
+_Built with ❤️ for mobile productivity_
 
 </div>
