@@ -15,9 +15,14 @@ A modern, mobile-first task management application built with React, Ionic, and 
 
 ### ✨ Experience TaskFlow in Action
 
-[![TaskFlow App Demo](./docs/app-demo.mp4)](./docs/app-demo.mp4)
+<div align="center">
 
-*Click to play video*
+<a href="https://youtube.com/shorts/3SC3ZTT8HOo"><img src="./docs/screenshots/preview.png" width="300" alt="TaskFlow App Demo - Click to watch on YouTube" style="border: 3px solid #3880ff; border-radius: 12px; display: block;"></a>
+
+**▶️ Click to watch demo on YouTube**
+
+</div>
+
 
 ### 📸 Screenshot Gallery
 
