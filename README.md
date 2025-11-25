@@ -39,23 +39,23 @@ TaskFlow is a **mobile-first task management application** designed to help you 
 
 ### ✨ Key Highlights
 
-- **Mobile-First Design** — Optimized for touch interactions and mobile workflows
-- **Native Performance** — Compiled to native iOS and Android apps using Capacitor
-- **Modern Stack** — React + Ionic + TypeScript for maintainable, scalable code
-- **Google OAuth Integration** — Quick and secure authentication
-- **Beautiful Dark Mode** — Arctic blue theme with smooth animations
-- **Smooth Interactions** — Delightful micro-interactions throughout
+- **Mobile-First Design** - Optimized for touch interactions and mobile workflows
+- **Native Performance** - Compiled to native iOS and Android apps using Capacitor
+- **Modern Stack** - React + Ionic + TypeScript for maintainable, scalable code
+- **Google OAuth Integration** - Quick and secure authentication
+- **Beautiful Dark Mode** - Arctic blue theme with smooth animations
+- **Smooth Interactions** - Delightful micro-interactions throughout
 
 ---
 
 ## 🎯 Features
 
-- 🔐 **Secure Authentication** — Google OAuth via Capacitor
-- 📋 **Intuitive Task Lists** — Swipe, tap, and organize with ease
-- 🎨 **Modern Arctic Blue Theme** — Beautiful gradient designs with dark mode support
-- ⚡ **Smooth Animations** — Delightful micro-interactions
-- 📱 **Native Feel** — Optimized for iOS and Android
-- 🌍 **Cross-Platform** — Single codebase for web and mobile
+- 🔐 **Secure Authentication** - Google OAuth via Capacitor
+- 📋 **Intuitive Task Lists** - Swipe, tap, and organize with ease
+- 🎨 **Modern Arctic Blue Theme** - Beautiful gradient designs with dark mode support
+- ⚡ **Smooth Animations** - Delightful micro-interactions
+- 📱 **Native Feel** - Optimized for iOS and Android
+- 🌍 **Cross-Platform** - Single codebase for web and mobile
 
 ---
 
@@ -295,7 +295,7 @@ We welcome contributions to TaskFlow! This project is in early development with 
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -312,10 +312,10 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 Special thanks to:
 
-- [Ionic Team](https://ionicframework.com/) — Amazing mobile framework
-- [Capacitor Team](https://capacitorjs.com/) — Seamless native integration
-- [React Team](https://reactjs.org/) — Powerful UI framework
-- Open-source community — Inspiration and contributions
+- [Ionic Team](https://ionicframework.com/) - Amazing mobile framework
+- [Capacitor Team](https://capacitorjs.com/) - Seamless native integration
+- [React Team](https://reactjs.org/) - Powerful UI framework
+- Open-source community - Inspiration and contributions
 
 ---
 
