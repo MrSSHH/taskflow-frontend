@@ -21,7 +21,7 @@ const TaskCard: React.FC<Props> = ({ task, onEdit, onComplete }) => {
     <IonCard key={task.id}>
       <IonCardHeader>
         <IonCardSubtitle>
-          Closest due date: {task.dueDates[0].dueDates ?? "-"}
+          Closest due date: {task.dueDate ?? "-"}
         </IonCardSubtitle>
         <IonCardTitle>{task.title}</IonCardTitle>
       </IonCardHeader>

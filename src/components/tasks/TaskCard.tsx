@@ -34,17 +34,17 @@ const TaskCard: React.FC<Props> = ({
     if (selectedTaskIds.length > 0) {
       // 👉 Already in selection mode — toggle immediately
       setSelectedTaskIds((prev) =>
-        prev.includes(task.id)
+        prev.includes(task.id!)
           ? prev.filter((currentId) => currentId !== task.id)
-          : [...prev, task.id]
+          : [...prev, task.id!]
       );
     } else {
       // 👉 Not in selection mode — wait for long-press
       timeoutRef.current = setTimeout(() => {
         setSelectedTaskIds((prev) =>
-          prev.includes(task.id)
+          prev.includes(task.id!)
             ? prev.filter((currentId) => currentId !== task.id)
-            : [...prev, task.id]
+            : [...prev, task.id!]
         );
       }, TIMEOUT_ANIMATION);
     }
@@ -64,7 +64,7 @@ const TaskCard: React.FC<Props> = ({
   };
   const handleTouchCancel = handleTouchEnd;
 
-  const isSelected = selectedTaskIds.includes(task.id);
+  const isSelected = selectedTaskIds.includes(task.id!);
   return (
     <>
       <IonCard
