@@ -44,7 +44,7 @@ const TaskDeleteConfirmation: React.FC<Props> = ({
               });
               setSelectedTaskIds([]);
             } else {
-              deleteTask(taskToDelete.id);
+              deleteTask(taskToDelete!.id!);
             }
             console.log("Deleted task");
             setLoading(true);

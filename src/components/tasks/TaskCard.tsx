@@ -1,5 +1,4 @@
 import {
-  IonAlert,
   IonButton,
   IonCard,
   IonCardContent,
@@ -9,7 +8,7 @@ import {
   IonCheckbox,
   IonItem,
 } from "@ionic/react";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Task } from "../../types/task";
 
 type Props = {
@@ -71,7 +70,7 @@ const TaskCard: React.FC<Props> = ({
         key={task.id}
         onTouchStart={
           selectedTaskIds.length === 0
-            ? (event) => handleTouchPress(task)
+            ? () => handleTouchPress(task)
             : undefined
         }
         onTouchEnd={handleTouchEnd}

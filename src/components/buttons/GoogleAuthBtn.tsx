@@ -70,9 +70,7 @@ const GoogleLoginBtn: React.FC = () => {
   const signIn = async (): Promise<GoogleLoginResponse> => {
     const res = await SocialLogin.login({
       provider: "google",
-      options: {
-        scopes: ["email", "profile"],
-      },
+      options: {},
     });
 
     return res as GoogleLoginResponse;

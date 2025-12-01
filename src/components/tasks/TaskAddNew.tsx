@@ -17,7 +17,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import { logInOutline } from "ionicons/icons";
-import React from "react";
+import React, { useRef } from "react";
 import { addTask } from "../../services/api";
 import { Task } from "../../types/task";
 
@@ -39,8 +39,12 @@ const TaskAddNew: React.FC<Props> = ({
   setLoading,
   fetchTasks,
 }) => {
+  const inputRef = useRef<HTMLIonInputElement>(null);
   return (
     <IonModal
+      onIonModalDidPresent={() => {
+        inputRef.current?.setFocus();
+      }}
       isOpen={showAddModal}
       ref={modal}
       onDidDismiss={({ detail }) => {
@@ -82,6 +86,7 @@ const TaskAddNew: React.FC<Props> = ({
                     }}
                   >
                     <IonInput
+                      ref={inputRef}
                       fill="outline"
                       labelPlacement="floating"
                       //label="Title"

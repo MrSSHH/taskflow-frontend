@@ -32,7 +32,7 @@ const notifySubscribers = (newToken: string) => {
 
 // ========== AXIOS INSTANCES ==========
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://192.168.50.52:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const api = axios.create({
 });
 
 const refreshApi = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://192.168.50.52:3000/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
