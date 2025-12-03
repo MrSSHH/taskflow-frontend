@@ -45,6 +45,7 @@ const TaskAddNew: React.FC<Props> = ({
       }}
       isOpen={showAddModal}
       ref={modal}
+      mode="ios"
       onDidDismiss={({ detail }) => {
         setShowAddModal(false);
         console.log(`Dismissed with role: ${detail.role}`);
