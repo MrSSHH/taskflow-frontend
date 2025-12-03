@@ -99,9 +99,6 @@
 }
 
 
-.ion-title-dashboard {
-  background-color: #ddd;
-}
 /* === DARK MODE OVERRIDES === */
 @media (prefers-color-scheme: dark) {
   .content-darkmode {

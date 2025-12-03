@@ -5,7 +5,7 @@
   justify-content: center;
   height: 100%;
   text-align: center;
-  background: var(--ion-background-color);
+  --ion-background-color: default;
 }
 
 .no-tasks-text {

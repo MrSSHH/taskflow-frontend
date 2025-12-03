@@ -212,7 +212,6 @@ ion-fab ion-button {
   --background: linear-gradient(135deg, var(--success-color) 0%, #00a885 100%);
   --background-hover: linear-gradient(135deg, #00d4a1 0%, #00b894 100%);
   --box-shadow: 0 8px 24px rgba(0, 184, 148, 0.4);
-  --border-radius: 16px;
   --padding-start: 18px;
   --padding-end: 18px;
   --padding-top: 18px;

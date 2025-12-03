@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent } from "@ionic/react";
 import React from "react";
 import Lottie from "lottie-react";
 import TasksNoResultsFound from "../../assets/animations/TasksNoResultsFound.json";

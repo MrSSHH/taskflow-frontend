@@ -11,11 +11,9 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonSearchbar,
-  IonText,
   IonTitle,
   IonToolbar,
   RefresherCustomEvent,
-  useIonViewWillEnter,
 } from "@ionic/react";
 import React, { useEffect, useRef, useState } from "react";
 import { getTasks } from "../services/api";
@@ -54,6 +52,17 @@ const Tasks: React.FC = () => {
 
   useEffect(() => {
     setPresentingElement(page.current);
+    const run = async () => {
+      try {
+        setLoading(true);
+        await fetchTasks();
+      } catch (err) {
+        console.error("Failed to fetch tasks:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
   }, []);
   const fetchTasks = async () => {
     await new Promise((resolve) =>
@@ -68,20 +77,6 @@ const Tasks: React.FC = () => {
     console.log("* ~ Tasks.tsx ~ getTasks ~ tasks:", res.data);
     setTasks(res.data);
   };
-
-  useIonViewWillEnter(() => {
-    const run = async () => {
-      try {
-        setLoading(true);
-        await fetchTasks();
-      } catch (err) {
-        console.error("Failed to fetch tasks:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    run();
-  });
 
   async function handleRefresh(event: RefresherCustomEvent) {
     setLoading(true);
@@ -135,20 +130,19 @@ const Tasks: React.FC = () => {
           <IonSearchbar />
         </IonToolbar>
       </IonHeader>
+
       <IonContent className="content-darkmode">
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent />
         </IonRefresher>
-        {loading && (
+
+        {loading ? (
           <>
             <IonProgressBar type="indeterminate" />
             <TaskSkeletonText />
           </>
-        )}
-
-        {tasks.length == 0 && <TasksNotFound />}
-        {loading ? (
-          <IonText></IonText>
+        ) : tasks.length == 0 ? (
+          <TasksNotFound />
         ) : (
           tasks.map((task) => (
             <TaskCard

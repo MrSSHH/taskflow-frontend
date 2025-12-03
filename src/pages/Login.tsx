@@ -6,7 +6,6 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
-  IonInput,
   IonButton,
   IonIcon,
   useIonRouter,
@@ -16,11 +15,7 @@ import {
   IonCol,
 } from "@ionic/react";
 import React, { FormEvent, useEffect, useState } from "react";
-import {
-  logInOutline,
-  personCircleOutline,
-  repeatOutline,
-} from "ionicons/icons";
+import { repeatOutline } from "ionicons/icons";
 import Intro from "../components/intro";
 import { Preferences } from "@capacitor/preferences";
 import LoginPageIcon from "../assets/icons/login-page-icon.png";
